@@ -10,6 +10,8 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE users 
+ADD COLUMN biography TEXT;
 
 --insert fake users
 INSERT INTO users (user_id, username, password, email, full_name, is_admin) VALUES('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'test','test1' ,'test1@test.com', 'test', 'false')

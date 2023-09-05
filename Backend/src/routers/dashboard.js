@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const authorize = require("../middleware/authorize");
 const pool = require("../db");
+const authorize = require("../middleware/authorize");
 
 router.post("/", authorize, async (req, res) => {
   try {
@@ -8,7 +9,7 @@ router.post("/", authorize, async (req, res) => {
       "SELECT user_name FROM users WHERE user_id = $1",
       [req.user.id]
     );
-
+    console.log(1);
     //if would be req.user if you change your payload to this:
 
     //   function jwtGenerator(user_id) {

@@ -3,11 +3,11 @@ const router = express.Router();
 const pool = require("../../db");
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../utility/jwtgenerator");
-// const validInfo = require("../middleware/validinfo");
-// const authorization = require("../middleware/authorization");
+const { validInfo } = require("../middleware/validInfo");
+const { authorize } = require("../middleware/authorize");
 
 // register route
-router.post("/register", async (req, res) => {
+router.post("/register", validInfo, async (req, res) => {
   try {
     // 1. destructure the req.body (name, email, password)
     const { username, email, password, full_name } = req.body;
@@ -43,24 +43,20 @@ router.post("/register", async (req, res) => {
     res.status(500).send("Register Error");
   }
 });
-router.post("/login", async (req, res) => {
+router.post("/login", validInfo, async (req, res) => {
   const { email, password } = req.body;
   try {
     // 1. check if user doesn't exist (if not then we throw error)
     const user = await pool.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
-
     if (user.rows.length === 0) {
       return res.status(401).json("Email or Password is incorrect");
     }
 
     // 2. check if incoming password is the same as db password
-    const validPassword = await bcrypt.compare(
-      password,
-      user.rows[0].user_password
-    );
-
+    const validPassword = await bcrypt.compare(password, user.rows[0].password);
+    console.log(validPassword);
     if (!validPassword) {
       return res.status(401).json("Email or Password is incorrect");
     }
@@ -70,9 +66,146 @@ router.post("/login", async (req, res) => {
 
     res.json({ jwtToken });
   } catch (err) {
-    console.error(err.message);
+    console.error(err);
     res.status(500).send("Server error");
   }
 });
+// const updateProfile = async (req, res) => {
+//   try {
+//     const { id } = req.params;
 
+//     let updates = [];
+//     let values = [];
+//     let index = 1;
+
+//     // Check if fields are in req.body and push them into updates and values arrays
+//     const fields = ['full_name', 'mobile_number', 'biography',];
+//     fields.forEach(field => {
+//       if (field in req.body) {
+//         updates.push(`${field} = $${index}`);
+//         values.push(req.body[field]);
+//         index++;
+//       }
+//     });
+
+//     // Handle location fields
+//     if ("location" in req.body) {
+//       if ("district" in req.body.location) {
+//         updates.push(`district = $${index}`);
+//         values.push(req.body.location.district);
+//         index++;
+//       }
+
+//       if ("postal_code" in req.body.location) {
+//         updates.push(`postal_code = $${index}`);
+//         values.push(req.body.location.postal_code);
+//         index++;
+//       }
+//     }
+
+//     // Construct the SQL update query
+//     const query = `
+//       UPDATE users
+//       SET ${updates.join(', ')}
+//       WHERE user_id = $${index}
+//       RETURNING *;
+//     `;
+
+//     values.push(id);  // Add user_id to the values array for WHERE clause
+
+//     // Execute the update
+//     const result = await pool.query(query, values);
+
+//     if (result.rows.length > 0) {
+//       res.json({ status: "ok", msg: "Account updated", updatedUser: result.rows[0] });
+//     } else {
+//       res.json({ status: "error", msg: "User not found" });
+//     }
+//   } catch (error) {
+//     console.log(error.message);
+//     res.json({ status: "error", msg: error.message });
+//   }
+// };
+router.put("/update", async (req, res) => {
+  try {
+    const { email, username, full_name, newPassword } = req.body;
+
+    // 1. Check if the user exists
+    const user = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+
+    if (user.rows.length === 0) {
+      return res.status(401).json("User not found");
+    }
+
+    let updatedFields = [];
+    let values = [];
+    const conditions = [];
+
+    if (username) {
+      updatedFields.push("username");
+      values.push(username);
+      conditions.push(`username = $${values.length}`);
+    }
+
+    if (full_name) {
+      updatedFields.push("full_name");
+      values.push(full_name);
+      conditions.push(`full_name = $${values.length}`);
+    }
+
+    if (newPassword) {
+      // bcrypt the new password
+      const saltRound = 5;
+      const salt = await bcrypt.genSalt(saltRound);
+      const bcryptPassword = await bcrypt.hash(newPassword, salt);
+
+      updatedFields.push("password");
+      values.push(bcryptPassword);
+      conditions.push(`password = $${values.length}`);
+    }
+
+    if (!updatedFields.length) {
+      return res.status(400).json("No fields to update");
+    }
+
+    // Add email as last value for WHERE condition
+    values.push(email);
+
+    // Create SQL UPDATE statement
+    const updateSQL = `
+      UPDATE users
+      SET ${conditions.join(", ")}
+      WHERE email = $${values.length}
+      RETURNING *;
+    `;
+
+    // Execute the update
+    const result = await pool.query(updateSQL, values);
+
+    if (result.rows.length > 0) {
+      res.json({
+        status: "success",
+        msg: "User updated successfully",
+        updatedUser: result.rows[0],
+      });
+    } else {
+      res.json({ status: "error", msg: "Update failed" });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Update Error");
+  }
+});
+console.log(2);
+router.get("/verify", authorize, async (req, res) => {
+  try {
+    res.json(true);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+});
+console.log(3);
 module.exports = router;
