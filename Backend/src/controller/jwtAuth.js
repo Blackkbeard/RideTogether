@@ -126,7 +126,6 @@ const loginUser = async (req, res) => {
 //     res.json({ status: "error", msg: error.message });
 //   }
 // };
-console.log(1);
 const updateUser = async (req, res) => {
   console.log(req.params.id);
   try {
@@ -228,5 +227,4 @@ router.get("/verify", authorize, async (req, res) => {
     res.status(500).send("Server error");
   }
 });
-console.log(10);
 module.exports = { registerUser, loginUser, updateUser };
