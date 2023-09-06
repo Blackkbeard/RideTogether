@@ -4,7 +4,7 @@ const riderRoutes = require("./src/routers/routes");
 const app = express();
 const jwtAuth = require("./src/routers/jwtAuth");
 const cors = require("cors");
-
+const posts = require("./src/routers/posts");
 // we are using postgres as our database
 app.use(cors());
 app.use(express.json());
@@ -17,7 +17,7 @@ app.use("/auth", jwtAuth);
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
-app.use("/api", riderRoutes);
+app.use("/api", posts);
 
 const port = 5001;
 
