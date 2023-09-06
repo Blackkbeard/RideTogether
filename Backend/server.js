@@ -6,6 +6,7 @@ const jwtAuth = require("./src/routers/jwtAuth");
 const cors = require("cors");
 const posts = require("./src/routers/posts");
 const postEnquiry = require("./src/routers/postEnquiry");
+const postRegistration = require("./src/routers/postRegistration");
 
 // we are using postgres as our database
 app.use(cors());
@@ -13,7 +14,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
-//-----------routes
+//-----------routes-------------//
 //Authentication
 app.use("/auth", jwtAuth);
 
@@ -24,6 +25,9 @@ app.use("/api", posts);
 
 //When people enquire one another
 app.use("/api/enquiries", postEnquiry);
+
+//When People register for one post
+app.use("/api/post", postRegistration);
 
 const port = 5001;
 

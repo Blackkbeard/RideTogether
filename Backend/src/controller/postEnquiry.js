@@ -2,7 +2,9 @@ const PostEnquiry = require("../models/postEnquiry");
 
 const createPostEnquiry = async (req, res) => {
   try {
+    console.log(req.body);
     const enquiry = await PostEnquiry.createEnquiry(req.body);
+    console.log(enquiry);
     res.status(201).json(enquiry);
   } catch (error) {
     res.status(500).json({ message: "Error creating enquiry." });
