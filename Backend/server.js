@@ -7,6 +7,7 @@ const cors = require("cors");
 const posts = require("./src/routers/posts");
 const postEnquiry = require("./src/routers/postEnquiry");
 const postRegistration = require("./src/routers/postRegistration");
+const dashboard = require("./src/routers/dashboard");
 
 // we are using postgres as our database
 app.use(cors());
@@ -18,7 +19,7 @@ app.get("/", (req, res) => res.send("Hello World!"));
 //Authentication
 app.use("/auth", jwtAuth);
 
-// app.use("/dashboard", require("./routers/dashboard"));
+app.use("/dashboard", dashboard);
 
 //Posts when people creat new posts
 app.use("/api", posts);

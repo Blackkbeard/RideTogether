@@ -10,10 +10,12 @@ const {
   registerUser,
   loginUser,
   updateUser,
+  verifyUser,
 } = require("../controller/jwtAuth");
 
-router.post("/register", registerUser);
-router.post("/login", loginUser);
+router.post("/register", validInfo, registerUser);
+router.post("/login", validInfo, loginUser);
 router.patch("/update/:id", updateUser);
+router.get("/verify", authorize, verifyUser);
 
 module.exports = router;

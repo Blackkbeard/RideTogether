@@ -219,12 +219,12 @@ const updateUser = async (req, res) => {
     console.log(9);
   }
 };
-router.get("/verify", authorize, async (req, res) => {
+const verifyUser = async (req, res) => {
   try {
     res.json(true);
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
   }
-});
-module.exports = { registerUser, loginUser, updateUser };
+};
+module.exports = { registerUser, loginUser, updateUser, verifyUser };
