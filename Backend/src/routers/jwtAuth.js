@@ -9,12 +9,14 @@ const { authorize } = require("../middleware/authorize");
 const {
   registerUser,
   loginUser,
+  getUserById,
   updateUser,
   verifyUser,
 } = require("../controller/jwtAuth");
 
 router.post("/register", validInfo, registerUser);
 router.post("/login", validInfo, loginUser);
+router.get("/getUser/:id", getUserById);
 router.patch("/update/:id", updateUser);
 router.get("/verify", authorize, verifyUser);
 

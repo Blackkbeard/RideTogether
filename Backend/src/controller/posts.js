@@ -16,7 +16,22 @@ const newPost = async (req, res) => {
     res.status(500).send("Error creating post");
   }
 };
+const getPost = async (req, res) => {
+  try {
+    console.log(1);
+    const userId = req.params.user_id; // assuming you pass user_id as a route parameter
+    const posts = await Post.getPostsByUserId(userId);
+    console.log(posts);
+    if (posts.length === 0) {
+      return res.status(404).json({ message: "No posts found for this user." });
+    }
 
+    res.status(200).json(posts);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error retrieving posts for the user");
+  }
+};
 const changePost = async (req, res) => {
   try {
     const updatedPost = await Post.editPost(req.body);
@@ -37,4 +52,4 @@ const removePost = async (req, res) => {
   }
 };
 
-module.exports = { newPost, changePost, removePost };
+module.exports = { newPost, changePost, getPost, removePost };

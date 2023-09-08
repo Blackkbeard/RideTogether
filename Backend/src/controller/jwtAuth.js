@@ -70,6 +70,26 @@ const loginUser = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
+
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await pool.query("SELECT * FROM users WHERE user_id = $1", [
+      id,
+    ]);
+
+    if (user.rows.length === 0) {
+      return res.status(404).json("User not found");
+    }
+
+    res.json(user.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
 // const updateProfile = async (req, res) => {
 //   try {
 //     const { id } = req.params;
@@ -219,6 +239,7 @@ const updateUser = async (req, res) => {
     console.log(9);
   }
 };
+
 const verifyUser = async (req, res) => {
   try {
     res.json(true);
@@ -227,4 +248,10 @@ const verifyUser = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
-module.exports = { registerUser, loginUser, updateUser, verifyUser };
+module.exports = {
+  registerUser,
+  loginUser,
+  getUserById,
+  updateUser,
+  verifyUser,
+};

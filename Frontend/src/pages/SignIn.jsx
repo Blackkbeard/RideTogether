@@ -1,29 +1,55 @@
-import React from "react";
+// src/components/Login.js
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
+import useFetch from "../hooks/useFetch";
+import UserContext from "../context/user";
 
-const SignIn = () => {
-  // const handleLogin = async () => {
-  //   const res = await fetchData("/auth/login", "POST", { email, password });
-  //   if (res.ok) {
-  //     userCtx.setAccessToken(res.data.access);
-  //     localStorage.setItem("accessToken", JSON.stringify(res.data.access));
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const userCtx = useContext(UserContext);
 
-  //     const decoded = jwtDecode(res.data.access);
+  const handleSubmit = async () => {
+    const res = await fetchData("/auth/login", "POST", { email, password });
+    if (res.ok) {
+      // Assuming your server sends back the access token and user_id in the response.
+      userCtx.setAccessToken(res.data.access);
 
-  //     userCtx.setUserId(decoded.id);
-  //     localStorage.setItem("userId", JSON.stringify(decoded.id));
+      const decoded = jwtDecode(res.data.access);
 
-  //     navigate(`/profile/${decoded.id}`);
-  //   } else {
-  //     alert(JSON.stringify(res.data));
-  //   }
-  // };
+      userCtx.setUserId(decoded.id);
+
+      // Storing user_id in local storage instead of the token.
+      localStorage.setItem("userId", decoded.id);
+
+      navigate(`/profile/${decoded.id}`);
+    } else {
+      alert(JSON.stringify(res.data));
+    }
+  };
 
   return (
-    <form>
-      <input type="text" name="email" placeholder="Email" />
-      <input type="password" name="password" placeholder="Password" />
-      <button type="submit">Sign In</button>
-    </form>
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
-};
-export default SignIn;
+}
+
+export default Login;

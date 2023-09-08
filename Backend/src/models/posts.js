@@ -8,11 +8,11 @@ const createPost = async (data) => {
     data;
   const result = await pool.query(
     `
-    INSERT INTO posts(user_id, username, location, duration,  max_pax, details, ride_date)
-    VALUES($1, $2, $3, $4, $5, $6, $7)
+    INSERT INTO posts(user_id, location, duration,  max_pax, details, ride_date)
+    VALUES($1, $2, $3, $4, $5, $6)
     RETURNING *;
   `,
-    [user_id, username, location, duration, max_pax, details, ride_date]
+    [user_id, location, duration, max_pax, details, ride_date]
   );
 
   return result.rows[0];
@@ -33,6 +33,22 @@ const editPost = async (data) => {
   return result.rows[0];
 };
 
+const getPostsByUserId = async (user_id) => {
+  try {
+    const result = await pool.query(
+      `
+      SELECT * FROM posts
+      WHERE user_id = $1;
+    `,
+      [user_id]
+    );
+
+    return result.rows;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deletePost = async (post_id) => {
   const result = await pool.query(
     `
@@ -49,5 +65,6 @@ const deletePost = async (post_id) => {
 module.exports = {
   createPost,
   editPost,
+  getPostsByUserId,
   deletePost,
 };
