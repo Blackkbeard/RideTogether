@@ -1,58 +1,97 @@
 import React, { useState, useEffect } from "react";
-import SignIn from "./pages/SignIn";
+import Login from "./pages/Login";
 import { Routes, Route } from "react-router-dom";
 import useFetch from "./hooks/useFetch";
+import UserContext from "./context/user";
 import Profile from "./pages/profile";
+import ProfileSetup from "./pages/ProfileSetup";
+import Registration from "./pages/Registration";
 
 function App() {
   const fetchData = useFetch();
-  const initUserId = JSON.parse(localStorage.getItem("userId"));
-  const initAccessToken = JSON.parse(localStorage.getItem("jwtToken"));
-  // states
-  const [accessToken, setAccessToken] = useState(initAccessToken);
-  const [userId, setUserId] = useState(initUserId);
-  const [userInfo, setUserInfo] = useState({});
-  const [open, setOpen] = useState(false); //snackbar
+  // const initAccessToken = JSON.parse(localStorage.getItem("accessToken"));
+  // const initUserId = JSON.parse(localStorage.getItem("userId"));
 
+  // states
+
+  const [accessToken, setAccessToken] = useState();
+  const [userId, setUserId] = useState();
+  const [userInfo, setUserInfo] = useState({});
+  const [open, setOpen] = useState(false);
+
+  //endpoints
   const getUserInfo = async () => {
     try {
-      const response = await fetchData("/auth/login/" + userId);
-
-      if (response.ok) {
-        const data = await response.json();
-
-        // Store userInfo to localStorage and set as initial state
-        localStorage.setItem("userInfo", JSON.stringify(data));
-
-        // Set initial userInfo from localStorage after component mounts
-        const initUserInfo = JSON.parse(localStorage.getItem("userInfo"));
-        if (initUserInfo) {
-          setUserInfo(initUserInfo);
+      const response = await fetch(
+        "http://127.0.0.1:5173/auth/getUser/" + userId,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // If your backend requires the token for authentication:
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
-      } else {
-        const errorData = await response.json();
-        console.error("Error fetching user info:", errorData);
+      );
+
+      if (!response.ok) {
+        console.error("Failed to get user info:", await response.text());
+        return;
       }
+
+      const data = await response.json();
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setUserInfo(data);
     } catch (error) {
-      console.error("There was an error fetching the user info:", error);
+      console.error("An error occurred while fetching user info:", error);
     }
   };
 
+  //when user logs in, userId is updated and app gets user info
   useEffect(() => {
     getUserInfo();
   }, [userId]);
-
   return (
-    <div>
-      <Routes>
-        <Route path="/sign-in" element={<SignIn />}></Route>
-        <Route
-          path="/profile/:item"
-          element={<Profile open={open} setOpen={setOpen} />}
-        ></Route>
-      </Routes>
+    <div className="margin-padding-0">
+      <UserContext.Provider
+        value={{
+          accessToken,
+          setAccessToken,
+          userInfo,
+          setUserInfo,
+          userId,
+          setUserId,
+          getUserInfo,
+        }}
+      >
+        <Routes>
+          <Route path="/Login" element={<Login />}></Route>
+          <Route
+            path="/registration"
+            element={<Registration setUserInfo={setUserInfo} />}
+          ></Route>
+          <Route
+            path="/profile-setup"
+            element={
+              <ProfileSetup
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                getUserInfo={getUserInfo}
+              />
+            }
+          ></Route>
+
+          <Route
+            path="/profile"
+            element={<Profile open={open} setOpen={setOpen} />}
+          ></Route>
+          <Route
+          // path="/profile/:item"
+          // element={<Profile open={open} setOpen={setOpen} />}
+          ></Route>
+        </Routes>
+      </UserContext.Provider>
     </div>
   );
 }
-
 export default App;

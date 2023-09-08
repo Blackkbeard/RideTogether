@@ -30,6 +30,6 @@ app.use("/api/enquiries", postEnquiry);
 //When People register for one post
 app.use("/api/post", postRegistration);
 
-const port = 5001;
+const port = 5173;
 
 app.listen(port, () => console.log(`app listening on port: ${port}`));

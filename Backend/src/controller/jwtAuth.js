@@ -63,7 +63,7 @@ const loginUser = async (req, res) => {
 
     // 3. give them the jwt token
     const jwtToken = jwtGenerator(user.rows[0].user_id);
-
+    console.log(jwtToken);
     res.json({ jwtToken });
   } catch (err) {
     console.error(err);
