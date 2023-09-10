@@ -4,15 +4,14 @@ const router = express.Router();
 
 // Create Post
 const createPost = async (data) => {
-  const { user_id, username, location, duration, max_pax, details, ride_date } =
-    data;
+  const { user_id, location, max_pax, details } = data;
   const result = await pool.query(
     `
-    INSERT INTO posts(user_id, location, duration,  max_pax, details, ride_date)
-    VALUES($1, $2, $3, $4, $5, $6)
+    INSERT INTO posts(user_id, location,   max_pax, details )
+    VALUES($1, $2, $3, $4)
     RETURNING *;
   `,
-    [user_id, location, duration, max_pax, details, ride_date]
+    [user_id, location, max_pax, details]
   );
 
   return result.rows[0];

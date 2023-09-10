@@ -31,14 +31,15 @@ const AddPost = () => {
   const titleRef = useRef("");
   const descriptionRef = useRef("");
   const typeRef = useRef("");
-  const imageRef = useRef("");
+  // const imageRef = useRef("");
+  const paxRef = useRef("");
 
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [newPostId, setPostId] = useState("");
   const [open, setOpen] = useState(false); //snackbar
-  const [file, setFile] = useState(); //image file
-  const [imageUrl, setImageUrl] = useState("");
+  // const [file, setFile] = useState(); //image file
+  // const [imageUrl, setImageUrl] = useState("");
 
   // function
   const handleCloseSnackbar = (event, reason) => {
@@ -73,29 +74,62 @@ const AddPost = () => {
   );
 
   // endpoint to create listing
-  const createListing = async () => {
-    const res = await fetchData(
-      "/api/listings",
-      "PUT",
-      {
-        title: titleRef.current.value,
-        description: descriptionRef.current.value,
-        type: typeRef.current.value === "For Loan" ? "loan" : "free",
-        owner_id: userCtx.userInfo._id,
-        date_available_from: dateFrom,
-        date_available_to: dateTo,
-        image_url: imageUrl || "/sample-image.webp",
-      },
-      userCtx.accessToken
-    );
+  // const createPost = async () => {
+  //   const res = await fetchData(
+  //     "/api/listings",
+  //     "PUT",
+  //     {
+  //       title: titleRef.current.value,
+  //       description: descriptionRef.current.value,
+  //       type: typeRef.current.value === "For Loan" ? "loan" : "free",
+  //       owner_id: userCtx.userInfo._id,
+  //       date_available_from: dateFrom,
+  //       date_available_to: dateTo,
+  //       image_url: imageUrl || "/sample-image.webp",
+  //     },
+  //     userCtx.accessToken
+  //   );
 
-    if (res.ok) {
-      setOpen(true);
-      //to fetch all data?
-      setNewListingId(res.data.id);
-    } else {
-      alert(JSON.stringify(res.data));
-      console.log(res.data);
+  //   if (res.ok) {
+  //     setOpen(true);
+  //     //to fetch all data?
+  //     setNewListingId(res.data.id);
+  //   } else {
+  //     alert(JSON.stringify(res.data));
+  //     console.log(res.data);
+  //   }
+  // };
+
+  const createPost = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:5173/api/newPost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userCtx.accessToken}`, // assuming JWT or similar token for authentication
+        },
+        body: JSON.stringify({
+          title: titleRef.current.value,
+          description: descriptionRef.current.value,
+          type: typeRef.current.value,
+          user_id: userCtx.userInfo.id, // Assuming primary keys in PostgreSQL are integers and named 'id'
+          fromdate: dateFrom,
+          todate: dateTo,
+          pax: paxRef.current.value,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setOpen(true);
+        setNewListingId(data.id); // Depending on the shape of your returned data, adjust accordingly
+      } else {
+        alert(JSON.stringify(data));
+        console.log(data);
+      }
+    } catch (error) {
+      console.error("Error creating post:", error);
     }
   };
 
@@ -205,6 +239,16 @@ const AddPost = () => {
                 />
                 <TextField
                   required
+                  type="number"
+                  label="No. of Pax"
+                  variant="outlined"
+                  sx={{ width: "25rem", mb: "1rem" }}
+                  InputProps={{ inputProps: { min: 0 } }}
+                  inputRef={paxRef}
+                  helperText="Number of people you want to travel with"
+                />
+                <TextField
+                  required
                   select
                   label="Type"
                   variant="outlined"
@@ -264,7 +308,7 @@ const AddPost = () => {
                 justifyContent="center"
                 alignItems="center"
               >
-                <Btn onClick={createListing}>Create Listing</Btn>
+                <Btn onClick={createPost}>Create Ride Trip!</Btn>
               </Grid>
             </Grid>
           </Box>
@@ -277,7 +321,7 @@ const AddPost = () => {
           open={open}
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
-          message="Listing created!"
+          message="Trip created!"
           action={action}
         />
       </div>
