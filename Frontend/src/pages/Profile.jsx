@@ -4,20 +4,10 @@ import useFetch from "../hooks/useFetch";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Grid from "@mui/material/Unstable_Grid2";
-import {
-  Container,
-  Typography,
-  Box,
-  Chip,
-  Divider,
-  CircularProgress,
-  Snackbar,
-  IconButton,
-} from "@mui/material";
+import { Container, Typography, Box } from "@mui/material";
 import Avt from "../components/Avt";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import CloseIcon from "@mui/icons-material/Close";
 import Btn from "../components/Btn";
+import NavBar from "../components/NavBar";
 
 const Profile = (props) => {
   const params = useParams();
@@ -74,9 +64,14 @@ const Profile = (props) => {
     }
   };
 
+  useEffect(() => {
+    getPostByUserId();
+    getProfileInfo();
+  }, [params.item]);
+
   return (
     <div>
-      <h1>hello</h1>
+      <NavBar className="w-25 p-3"></NavBar>
       <Container>
         <Grid container>
           <Grid xs={2} sx={{ mt: "2rem" }}>
@@ -89,15 +84,23 @@ const Profile = (props) => {
                 marginBottom="1rem"
                 sx={{ ml: "3rem", mr: "3rem" }}
               >
-                {currProfile.display_name}
+                {`Name:${currProfile.display_name}`}
               </Typography>
               <Typography variant="body1" fontWeight="bold" sx={{ ml: "3rem" }}>
                 {/* optional chaining for object and array to prevent page load fail */}
-                {`Neighbourhood: ${currProfile.location?.[0].district}`}
+                {`Email: ${currProfile.email}`}
               </Typography>
               <Typography sx={{ ml: "3rem" }}>
-                {currProfile.biography}
+                {`Town:${currProfile.location}`}
               </Typography>
+              <Typography sx={{ ml: "3rem" }}>
+                {`Bio:${currProfile.biography}`}
+              </Typography>
+              <Grid xs={2} sx={{ mt: "2rem" }}>
+                {userCtx.userId === params.item && (
+                  <Btn onClick={() => navigate("/settings")}>Settings</Btn>
+                )}
+              </Grid>
             </Box>
           </Grid>
         </Grid>

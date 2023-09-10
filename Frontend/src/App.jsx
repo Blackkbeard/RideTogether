@@ -6,6 +6,8 @@ import UserContext from "./context/user";
 import Profile from "./pages/profile";
 import ProfileSetup from "./pages/ProfileSetup";
 import Registration from "./pages/Registration";
+import Settings from "./pages/Settings";
+import AddPost from "./pages/AddPost";
 
 function App() {
   const fetchData = useFetch();
@@ -80,11 +82,14 @@ function App() {
               />
             }
           ></Route>
+          <Route path="/addpost" element={<AddPost />}></Route>
+          {/* <Route
+            path="/listing/:item"
+            element={<ListingPage setOpen={setOpen} />}
+          ></Route> */}
 
-          <Route
-            path="/profile"
-            element={<Profile open={open} setOpen={setOpen} />}
-          ></Route>
+          <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/settings" element={<Settings />}></Route>
           <Route
           // path="/profile/:item"
           // element={<Profile open={open} setOpen={setOpen} />}

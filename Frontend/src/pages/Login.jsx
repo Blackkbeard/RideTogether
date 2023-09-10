@@ -40,7 +40,7 @@ function Login(props) {
         userCtx.setUserId(decoded.user_id); // Access user_id with decoded.user
         localStorage.setItem("userId", JSON.stringify(decoded.user_id)); // Save to localStorage
 
-        navigate(`/profile/${decoded.user_id}`);
+        navigate(`/settings/${decoded.user_id}`);
       } else {
         alert(JSON.stringify(data));
       }
@@ -104,7 +104,7 @@ function Login(props) {
             />
 
             <Btn variant="text" onClick={handleLogin}>
-              Sign In
+              Login
             </Btn>
 
             <Typography
