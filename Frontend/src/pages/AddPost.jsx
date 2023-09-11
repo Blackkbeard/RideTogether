@@ -110,7 +110,7 @@ const AddPost = () => {
         body: JSON.stringify({
           location: titleRef.current.value,
           details: descriptionRef.current.value,
-          type: typeRef.current.value,
+          ridetype: typeRef.current.value,
           user_id: userCtx.userInfo.user_id, // Assuming primary keys in PostgreSQL are integers and named 'id'
           fromdate: dateFrom,
           todate: dateTo,
@@ -122,7 +122,7 @@ const AddPost = () => {
 
       if (response.ok) {
         setOpen(true);
-        setNewPostId(data.id); // Depending on the shape of your returned data, adjust accordingly
+        setPostId(data.id); // Depending on the shape of your returned data, adjust accordingly
       } else {
         alert(JSON.stringify(data));
         console.log(data);
