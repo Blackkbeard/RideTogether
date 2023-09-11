@@ -37,8 +37,8 @@ function Login(props) {
 
         const decoded = jwtDecode(jwtToken); // Decode the JWT token
 
-        userCtx.setUserId(decoded.user_id); // Access user_id with decoded.user
-        localStorage.setItem("userId", JSON.stringify(decoded.user_id)); // Save to localStorage
+        userCtx.setUserId(decoded.user); // Access user_id with decoded.user
+        localStorage.setItem("userId", JSON.stringify(decoded.user)); // Save to localStorage
 
         navigate(`/settings/${decoded.user_id}`);
       } else {

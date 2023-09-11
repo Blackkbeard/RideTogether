@@ -3,7 +3,6 @@ import Grid from "@mui/material/Unstable_Grid2";
 import useFetch from "../hooks/useFetch";
 import UserContext from "../context/user";
 import { useNavigate } from "react-router-dom";
-// import { styled } from "@mui/material/styles";
 import {
   Container,
   Typography,
@@ -109,13 +108,13 @@ const AddPost = () => {
           Authorization: `Bearer ${userCtx.accessToken}`, // assuming JWT or similar token for authentication
         },
         body: JSON.stringify({
-          title: titleRef.current.value,
-          description: descriptionRef.current.value,
+          location: titleRef.current.value,
+          details: descriptionRef.current.value,
           type: typeRef.current.value,
-          user_id: userCtx.userInfo.id, // Assuming primary keys in PostgreSQL are integers and named 'id'
+          user_id: userCtx.userInfo.user_id, // Assuming primary keys in PostgreSQL are integers and named 'id'
           fromdate: dateFrom,
           todate: dateTo,
-          pax: paxRef.current.value,
+          max_pax: paxRef.current.value,
         }),
       });
 
@@ -123,7 +122,7 @@ const AddPost = () => {
 
       if (response.ok) {
         setOpen(true);
-        setNewListingId(data.id); // Depending on the shape of your returned data, adjust accordingly
+        setNewPostId(data.id); // Depending on the shape of your returned data, adjust accordingly
       } else {
         alert(JSON.stringify(data));
         console.log(data);
@@ -131,6 +130,10 @@ const AddPost = () => {
     } catch (error) {
       console.error("Error creating post:", error);
     }
+  };
+
+  const testClick = () => {
+    console.log(userCtx.userInfo);
   };
 
   //for image upload
@@ -308,6 +311,7 @@ const AddPost = () => {
                 justifyContent="center"
                 alignItems="center"
               >
+                <Btn>Test</Btn>
                 <Btn onClick={createPost}>Create Ride Trip!</Btn>
               </Grid>
             </Grid>

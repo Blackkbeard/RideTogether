@@ -10,7 +10,7 @@ const NavBar = () => {
           <li>
             <NavLink
               className={(navData) => (navData.isActive ? styles.active : "")}
-              to="/HomePage"
+              to="/homepage"
             >
               Home Page
             </NavLink>
@@ -26,7 +26,7 @@ const NavBar = () => {
           <li>
             <NavLink
               className={(navData) => (navData.isActive ? styles.active : "")}
-              to="/posts"
+              to="/myposts"
             >
               My Rides
             </NavLink>

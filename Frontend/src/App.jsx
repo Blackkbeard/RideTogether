@@ -8,16 +8,18 @@ import ProfileSetup from "./pages/ProfileSetup";
 import Registration from "./pages/Registration";
 import Settings from "./pages/Settings";
 import AddPost from "./pages/AddPost";
+import PostPage from "./pages/PostPage";
+import Homepage from "./pages/Homepage";
 
 function App() {
   const fetchData = useFetch();
-  // const initAccessToken = JSON.parse(localStorage.getItem("accessToken"));
-  // const initUserId = JSON.parse(localStorage.getItem("userId"));
+  const initAccessToken = JSON.parse(localStorage.getItem("accessToken"));
+  const initUserId = JSON.parse(localStorage.getItem("userId"));
 
   // states
 
-  const [accessToken, setAccessToken] = useState();
-  const [userId, setUserId] = useState();
+  const [accessToken, setAccessToken] = useState(initAccessToken);
+  const [userId, setUserId] = useState(initUserId);
   const [userInfo, setUserInfo] = useState({});
   const [open, setOpen] = useState(false);
 
@@ -83,16 +85,13 @@ function App() {
             }
           ></Route>
           <Route path="/addpost" element={<AddPost />}></Route>
-          {/* <Route
-            path="/listing/:item"
-            element={<ListingPage setOpen={setOpen} />}
-          ></Route> */}
-
+          <Route path="/myposts" element={<PostPage />}></Route>
+          <Route path="/homepage" element={<Homepage />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
           <Route
-          // path="/profile/:item"
-          // element={<Profile open={open} setOpen={setOpen} />}
+            path="/settings/:item"
+            element={<Settings open={open} setOpen={setOpen} />}
           ></Route>
         </Routes>
       </UserContext.Provider>

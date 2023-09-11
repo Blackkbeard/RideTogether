@@ -10,7 +10,15 @@ const { authorize } = require("../middleware/authorize");
 const registerUser = async (req, res) => {
   try {
     // 1. destructure the req.body (name, email, password)
-    const { username, email, password, full_name } = req.body;
+    const {
+      username,
+      email,
+      password,
+      full_name,
+      biography,
+      location,
+      mobile_number,
+    } = req.body;
 
     // 2. check if user exists (if user exists then throw error)
     const user = await pool.query("SELECT * FROM users WHERE email = $1", [
@@ -29,8 +37,16 @@ const registerUser = async (req, res) => {
 
     // 4. enter the new user inside our database
     const newUser = await pool.query(
-      "INSERT INTO users (username,full_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *",
-      [username, full_name, email, bcryptPassword]
+      "INSERT INTO users (username,full_name, email, password, biography, location, mobile_number) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+      [
+        username,
+        full_name,
+        email,
+        bcryptPassword,
+        biography,
+        location,
+        mobile_number,
+      ]
     );
 
     // 5. generating our jwt token

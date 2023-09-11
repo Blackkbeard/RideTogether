@@ -19,6 +19,7 @@ import useFetch from "../hooks/useFetch";
 import Btn from "../components/Btn";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Avt from "../components/Avt";
+import NavBar from "../components/NavBar";
 
 const Settings = (props) => {
   const userCtx = useContext(UserContext);
@@ -161,6 +162,8 @@ const Settings = (props) => {
 
   return (
     <>
+      <NavBar className="w-25 p-3"></NavBar>
+
       <Container maxWidth="lg">
         <Box>
           <Grid container>
@@ -190,7 +193,7 @@ const Settings = (props) => {
                 Name
               </Typography>
               <Typography gutterBottom variant="body1" sx={{ mb: "2rem" }}>
-                {userCtx.userInfo.display_name}
+                {userCtx.userInfo.username}
               </Typography>
 
               <Typography
@@ -239,15 +242,15 @@ const Settings = (props) => {
                 Location
               </Typography>
               <Typography gutterBottom variant="body1" sx={{ ml: "0" }}>
-                {userCtx.userInfo?.location?.[0].district}
+                {userCtx.userInfo?.location}
               </Typography>
-              <Typography
+              {/* <Typography
                 gutterBottom
                 variant="body1"
                 sx={{ ml: "0", mb: "2rem" }}
               >
-                {userCtx.userInfo?.location?.[0].postal_code}
-              </Typography>
+                {userCtx.userInfo?.location}
+              </Typography> */}
             </Grid>
             <Grid xs={4}></Grid>
             <Grid xs={8}>
