@@ -7,7 +7,7 @@ const {
   deleteRegister,
 } = require("../controller/postRegistration");
 
-router.post("/", postRegister);
+router.post("/registerPost", postRegister);
 router.get("/:postId", findRegister);
 router.delete("/:registrationId", deleteRegister);
 

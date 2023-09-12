@@ -40,7 +40,7 @@ const Homepage = () => {
     <>
       <NavBar />
       <h1>Welcome to the Homepage</h1>
-      <AllTrips posts={posts} />
+      <AllTrips posts={posts} userInfo={userCtx} />
     </>
   );
 };
