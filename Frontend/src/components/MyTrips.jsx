@@ -1,17 +1,34 @@
-import { React, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Container, Typography, Box } from "@mui/material";
-import NavBar from "../components/NavBar";
-import Grid from "@mui/material/Unstable_Grid2";
-import Btn from "../components/Btn";
-import useFetch from "../hooks/useFetch";
-import UserContext from "../context/user";
-import { useContext } from "react";
-import Avt from "../components/Avt";
+import React from "react";
+import { Card, Typography } from "@mui/material";
+// import Grid from "@mui/material";
+// import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 
-const MyTrip = (props) => { 
+const MyTrips = (props) => {
+  return (
+    <Grid container spacing={2}>
+      {props.posts.length === 0 ? (
+        <Typography>No posts available</Typography>
+      ) : (
+        props.posts.map((post) => (
+          <Grid item xs={12} md={6} key={post.post_id}>
+            <Card variant="outlined">
+              <Typography variant="h6">{post.location}</Typography>
+              <Typography>{post.details}</Typography>
+              <Typography>Ride Type: {post.ridetype}</Typography>
+              <Typography>
+                From: {new Date(post.fromdate).toLocaleDateString()}
+              </Typography>
+              <Typography>
+                To: {new Date(post.todate).toLocaleDateString()}
+              </Typography>
+              <Typography>Riders Wanted: {post.max_pax}</Typography>
+            </Card>
+          </Grid>
+        ))
+      )}
+    </Grid>
+  );
+};
 
-    return (
-        
-    )
- };
+export default MyTrips;

@@ -3,7 +3,8 @@ import UserContext from "../context/user";
 import useFetch from "../hooks/useFetch";
 import { useNavigate, useParams } from "react-router-dom";
 
-import Grid from "@mui/material/Unstable_Grid2";
+// import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 import { Container, Typography, Box } from "@mui/material";
 import Avt from "../components/Avt";
 import Btn from "../components/Btn";

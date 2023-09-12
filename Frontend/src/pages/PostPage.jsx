@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import Grid from "@mui/material/Unstable_Grid2";
+// import Grid from "@mui/system/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 import useFetch from "../hooks/useFetch";
 import UserContext from "../context/user";
 import { useNavigate } from "react-router-dom";
 import Btn from "../components/Btn";
 import NavBar from "../components/NavBar";
 import { Container, Typography, Box } from "@mui/material";
+import MyTrips from "../components/MyTrips";
 
 const PostPage = (props) => {
   const userCtx = useContext(UserContext);
@@ -25,9 +27,9 @@ const PostPage = (props) => {
   const getPostsByUserId = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:5173/api/posts/${userCtx.userInfo.user_id}`,
+        "http://127.0.0.1:5173/api/getPost/" + user_id,
         {
-          method: "GET", // This would be a GET request if you're fetching data
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${userCtx.accessToken}`,
@@ -38,24 +40,27 @@ const PostPage = (props) => {
       const data = await response.json();
 
       if (response.ok) {
-        setPosts(data);
+        setMyTrips(data); // <-- Use setMyTrips instead of setPosts
       } else {
         console.log(data);
-        setPosts([]); // Reset posts state if there's an error
-        setSelectPost({}); // Reset selected post state if there's an error
+        setMyTrips([]);
+        setSelectPost({});
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
   };
+
   useEffect(() => {
-    if (toggle === "My Trips") getPostsByUserId();
-    else if (toggle === "registered trips") getPostByRegisteredId(); //get data and update transactions state
-  }, [toggle, userCtx.userInfo]);
+    getPostsByUserId();
+  }, []); // Empty dependency to make it run once on component mount
+
   return (
     <>
-      <NavBar></NavBar>
+      <h1>My Trips</h1>
+      <NavBar />
       <Container>
+        <MyTrips posts={myTrips} />
         <Grid>
           <Btn onClick={() => navigate("/addpost")}>New Trip!</Btn>
         </Grid>

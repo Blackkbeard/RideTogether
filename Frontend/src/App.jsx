@@ -87,10 +87,10 @@ function App() {
           <Route path="/addpost" element={<AddPost />}></Route>
           <Route path="/myposts" element={<PostPage />}></Route>
           <Route path="/homepage" element={<Homepage />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
+          {/* <Route path="/profile" element={<Profile />}></Route> */}
           <Route path="/settings" element={<Settings />}></Route>
           <Route
-            path="/settings/:item"
+            path="/settings/:id"
             element={<Settings open={open} setOpen={setOpen} />}
           ></Route>
         </Routes>

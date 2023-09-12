@@ -61,9 +61,18 @@ const deletePost = async (post_id) => {
 
   return result.rows[0];
 };
+const getPosts = async () => {
+  try {
+    const result = await pool.query(`SELECT * FROM posts`);
+    return result.rows;
+  } catch (error) {
+    throw error;
+  }
+};
 
 module.exports = {
   createPost,
+  getPosts,
   editPost,
   getPostsByUserId,
   deletePost,

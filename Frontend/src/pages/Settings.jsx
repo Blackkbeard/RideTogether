@@ -1,6 +1,7 @@
 import React, { useContext, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Unstable_Grid2";
+// import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 import CityEnums from "../enums/CityEnums";
 import {
   Autocomplete,
@@ -110,55 +111,55 @@ const Settings = (props) => {
 
   const [file, setFile] = useState();
 
-  const submit = async (event) => {
-    event.preventDefault();
-    if (!file) {
-      alert("Please select an image file");
-      return;
-    }
-    const formData = new FormData();
-    formData.append("image", file);
-    formData.append("user_id", userFullInfo._id);
+  // const submit = async (event) => {
+  //   event.preventDefault();
+  //   if (!file) {
+  //     alert("Please select an image file");
+  //     return;
+  //   }
+  //   const formData = new FormData();
+  //   formData.append("image", file);
+  //   formData.append("user_id", userFullInfo._id);
 
-    const res = await fetch(
-      import.meta.env.VITE_SERVER + "/api/images/avatars",
-      {
-        method: "POST",
-        headers: {},
-        body: formData,
-      }
-    );
-    const data = await res.json();
+  //   const res = await fetch(
+  //     import.meta.env.VITE_SERVER + "/api/images/avatars",
+  //     {
+  //       method: "POST",
+  //       headers: {},
+  //       body: formData,
+  //     }
+  //   );
+  //   const data = await res.json();
 
-    let returnValue = {};
-    if (res.ok) {
-      if (data.status === "error") {
-        returnValue = { ok: false, data: data.msg };
-        alert(JSON.stringify(returnValue.data));
-      } else {
-        returnValue = { ok: true, data };
-        alert("Profile Picture updated");
-        userCtx.getUserInfo();
-      }
-    } else {
-      if (data?.errors && Array.isArray(data.errors)) {
-        const messages = data.errors.map((item) => item.msg);
-        returnValue = { ok: false, data: messages };
-        alert(returnValue.data);
-      } else if (data?.status === "error") {
-        returnValue = { ok: false, data: data.message || data.msg };
-        alert(returnValue.data);
-      } else {
-        returnValue = { ok: false, data: "An error has occurred" };
-        alert(returnValue.data);
-      }
-    }
-  };
+  //   let returnValue = {};
+  //   if (res.ok) {
+  //     if (data.status === "error") {
+  //       returnValue = { ok: false, data: data.msg };
+  //       alert(JSON.stringify(returnValue.data));
+  //     } else {
+  //       returnValue = { ok: true, data };
+  //       alert("Profile Picture updated");
+  //       userCtx.getUserInfo();
+  //     }
+  //   } else {
+  //     if (data?.errors && Array.isArray(data.errors)) {
+  //       const messages = data.errors.map((item) => item.msg);
+  //       returnValue = { ok: false, data: messages };
+  //       alert(returnValue.data);
+  //     } else if (data?.status === "error") {
+  //       returnValue = { ok: false, data: data.message || data.msg };
+  //       alert(returnValue.data);
+  //     } else {
+  //       returnValue = { ok: false, data: "An error has occurred" };
+  //       alert(returnValue.data);
+  //     }
+  //   }
+  // };
 
-  const fileSelected = (event) => {
-    const file = event.target.files[0];
-    setFile(file);
-  };
+  // const fileSelected = (event) => {
+  //   const file = event.target.files[0];
+  //   setFile(file);
+  // };
 
   return (
     <>
@@ -173,7 +174,7 @@ const Settings = (props) => {
               </Typography>
             </Grid>
             <Grid xs={4}>
-              <Avt src={userCtx.userInfo.image_url} size="15"></Avt>
+              {/* <Avt src={userCtx.userInfo.image_url} size="15"></Avt>
               <br />
               <input
                 onChange={fileSelected}
@@ -181,7 +182,7 @@ const Settings = (props) => {
                 accept="image/*"
               ></input>
 
-              <Btn onClick={submit}>Update</Btn>
+              <Btn onClick={submit}>Update</Btn> */}
             </Grid>
             <Grid xs={8}>
               <Typography

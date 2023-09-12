@@ -16,6 +16,19 @@ const newPost = async (req, res) => {
     res.status(500).send("Error creating post");
   }
 };
+const getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.getPosts();
+    if (posts.length === 0) {
+      return res.status(404).json({ message: "No posts found." });
+    }
+    res.status(200).json(posts);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error retrieving all posts");
+  }
+};
+
 const getPost = async (req, res) => {
   try {
     console.log(1);
@@ -52,4 +65,4 @@ const removePost = async (req, res) => {
   }
 };
 
-module.exports = { newPost, changePost, getPost, removePost };
+module.exports = { newPost, getAllPosts, changePost, getPost, removePost };
