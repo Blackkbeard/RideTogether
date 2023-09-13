@@ -12,7 +12,7 @@ const {
 router.post("/newPost", newPost);
 router.get("/getAllPosts", getAllPosts);
 router.get("/getPost/:user_id", getPost);
-router.patch("/editPost/:post_id", changePost);
-router.delete("/deletePost/:post_id", removePost);
+router.patch("/editpost/:post_id", changePost);
+router.delete("/deletepost/:post_id", removePost);
 
 module.exports = router;

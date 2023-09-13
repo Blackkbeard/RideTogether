@@ -46,7 +46,34 @@ const MyTrips = (props) => {
   };
 
   const handleDelete = (post) => {
-    // Logic for delete (can be added later)
+    deletePost(post.post_id);
+  };
+
+  const deletePost = async (postData) => {
+    console.log(postData);
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5173/api/deletepost/" + postData,
+        {
+          method: "DELETE",
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to delete the post.");
+      }
+
+      // Filter out the deleted post from your posts state
+      const updatedPosts = props.posts.filter(
+        (post) => post.post_id !== postData.post_id
+      );
+
+      props.setPosts(updatedPosts);
+    } catch (error) {
+      console.error("Error deleting the post:", error);
+    }
   };
 
   const updatePost = async (postData) => {
