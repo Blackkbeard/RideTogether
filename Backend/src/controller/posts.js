@@ -64,4 +64,28 @@ const removePost = async (req, res) => {
   }
 };
 
-module.exports = { newPost, getAllPosts, changePost, getPost, removePost };
+const getRegistrants = async (req, res) => {
+  try {
+    const postId = req.params.post_id;
+    const registrants = await Post.getRegistrantsByPostId(postId);
+
+    if (registrants.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No registrants found for this post." });
+    }
+
+    res.status(200).json(registrants);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error retrieving registrants for the post");
+  }
+};
+module.exports = {
+  newPost,
+  getAllPosts,
+  changePost,
+  getPost,
+  removePost,
+  getRegistrants,
+};

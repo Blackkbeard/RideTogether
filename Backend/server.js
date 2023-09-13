@@ -8,6 +8,7 @@ const posts = require("./src/routers/posts");
 const postEnquiry = require("./src/routers/postEnquiry");
 const postRegistration = require("./src/routers/postRegistration");
 const dashboard = require("./src/routers/dashboard");
+const bikeImages = require("./src/routers/bike");
 
 // we are using postgres as our database
 app.use(cors());
@@ -29,6 +30,9 @@ app.use("/api/enquiries", postEnquiry);
 
 //When People register for one post
 app.use("/api/post", postRegistration);
+
+//For random images
+app.use("/api", bikeImages);
 
 const port = 5173;
 

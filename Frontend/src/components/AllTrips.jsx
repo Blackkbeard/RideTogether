@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   Card,
   Typography,
@@ -14,11 +14,12 @@ import UserContext from "../context/user";
 
 const AllTrips = (props) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPost, setSelectedPost] = useState("");
   const posts = props.posts;
   const registeredPosts = props.registeredPosts;
   const userCtx = useContext(UserContext);
   const { userInfo, accessToken } = userCtx;
+  const [imageSrc, setImageSrc] = useState("");
 
   const handleRegister = async () => {
     const payload = {
@@ -56,9 +57,19 @@ const AllTrips = (props) => {
       console.log(2);
     }
   };
-
+  useEffect(() => {
+    // Fetch random image when component mounts
+    fetch("http://127.0.0.1:5173/api/randomimage")
+      .then((res) => res.blob())
+      .then((blob) => {
+        const imgURL = URL.createObjectURL(blob);
+        setImageSrc(imgURL);
+      })
+      .catch((error) => console.error("Error fetching image:", error));
+  }, []);
   return (
     <Grid container spacing={2}>
+      <img src={imageSrc} alt="Random from storage" />
       {posts.length === 0 ? (
         <Typography>No posts available</Typography>
       ) : (

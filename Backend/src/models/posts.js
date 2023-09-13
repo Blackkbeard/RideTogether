@@ -71,10 +71,27 @@ const getPosts = async () => {
   }
 };
 
+const getRegistrantsByPostId = async (post_id) => {
+  try {
+    const result = await pool.query(
+      `
+      SELECT users.* FROM post_registrations
+      JOIN users ON post_registrations.user_id = users.user_id
+      WHERE post_id = $1;
+      `,
+      [post_id]
+    );
+
+    return result.rows;
+  } catch (error) {
+    throw error;
+  }
+};
 module.exports = {
   createPost,
   getPosts,
   editPost,
   getPostsByUserId,
   deletePost,
+  getRegistrantsByPostId,
 };

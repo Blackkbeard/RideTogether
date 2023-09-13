@@ -24,6 +24,8 @@ const MyTrips = (props) => {
   const [open, setOpen] = useState(false);
   const [currentPost, setCurrentPost] = useState("");
   const userCtx = useContext(UserContext);
+  const [registrants, setRegistrants] = useState([]);
+  const [isRegistrantsModalOpen, setRegistrantsModalOpen] = useState(false);
 
   const titleRef = useRef("");
   const descriptionRef = useRef("");
@@ -117,7 +119,27 @@ const MyTrips = (props) => {
       updatePost(postData);
     }
   };
+  const handleUsers = (post) => {
+    fetchRegistrants(post.post_id);
+  };
 
+  const fetchRegistrants = async (postId) => {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5173/api/getRegistrants/" + postId
+      );
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch registrants.");
+      }
+
+      setRegistrants(data);
+      setRegistrantsModalOpen(true);
+    } catch (error) {
+      console.error("Error fetching the registrants:", error);
+    }
+  };
   return (
     <div>
       <Grid container spacing={2}>
@@ -137,6 +159,10 @@ const MyTrips = (props) => {
                   To: {new Date(post.todate).toLocaleDateString()}
                 </Typography>
                 <Typography>Riders Wanted: {post.max_pax}</Typography>
+                <Button onClick={() => handleUsers(post)}>
+                  Registered Users
+                </Button>
+
                 <Button onClick={() => handleEdit(post)}>Edit</Button>
                 <Button onClick={() => handleDelete(post)}>Delete</Button>
               </Card>
@@ -260,11 +286,42 @@ const MyTrips = (props) => {
           )}
         </DialogContent>
         <DialogActions>
+          <Button onClick={() => fetchRegistrants(post.post_id)}>
+            Who registered
+          </Button>
+
           <Button onClick={handleSaveEdit} color="primary">
             Save
           </Button>
           <Button onClick={handleClose} color="primary">
             Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={isRegistrantsModalOpen}
+        onClose={() => setRegistrantsModalOpen(false)}
+      >
+        <DialogTitle>Registered Users</DialogTitle>
+        <DialogContent>
+          {registrants.length === 0 ? (
+            <Typography>No users have registered for this post yet.</Typography>
+          ) : (
+            <ul>
+              {registrants.map((user) => (
+                <li key={user.id}>
+                  {user.name} ({user.email})
+                </li>
+              ))}
+            </ul>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setRegistrantsModalOpen(false)}
+            color="primary"
+          >
+            Close
           </Button>
         </DialogActions>
       </Dialog>
