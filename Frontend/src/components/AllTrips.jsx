@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Card,
   Typography,
@@ -10,22 +10,22 @@ import {
   Button,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import UserContext from "../context/user";
 
 const AllTrips = (props) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
-  const handleRegister = async () => {
-    // Retrieve the user ID from local storage
-    const userId = JSON.parse(localStorage.getItem("userId"));
-    console.log("User ID for registration:", userId);
+  const posts = props.posts;
+  const registeredPosts = props.registeredPosts;
+  const userCtx = useContext(UserContext);
+  const { userInfo, accessToken } = userCtx;
 
+  const handleRegister = async () => {
     const payload = {
       post_id: selectedPost.post_id,
-      user_id: userId,
+      user_id: userInfo.user_id,
     };
-
     console.log("Payload for register:", payload);
-
     try {
       const response = await fetch(
         "http://127.0.0.1:5173/api/post/registerPost",
@@ -37,7 +37,7 @@ const AllTrips = (props) => {
           },
           body: JSON.stringify({
             post_id: selectedPost.post_id,
-            user_id: userId,
+            user_id: userInfo.user_id,
           }),
         }
       );
@@ -49,18 +49,20 @@ const AllTrips = (props) => {
         setModalOpen(false);
       } else {
         console.error("Error registering:", data.message);
+        alert("You have already registered for your trip!.");
       }
     } catch (error) {
       console.error("Error registering:", error);
+      console.log(2);
     }
   };
 
   return (
     <Grid container spacing={2}>
-      {props.posts.length === 0 ? (
+      {posts.length === 0 ? (
         <Typography>No posts available</Typography>
       ) : (
-        props.posts.map((post) => (
+        posts.map((post) => (
           <Grid item xs={12} md={6} key={post.post_id}>
             <Card
               variant="outlined"
@@ -103,7 +105,11 @@ const AllTrips = (props) => {
           <Button onClick={() => setModalOpen(false)} color="primary">
             Close
           </Button>
-          <Button onClick={handleRegister} color="primary">
+          <Button
+            onClick={handleRegister}
+            color="primary"
+            disabled={registeredPosts.includes(selectedPost?.post_id)}
+          >
             Register
           </Button>
         </DialogActions>

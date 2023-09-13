@@ -31,6 +31,14 @@ const NavBar = () => {
               My Rides
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              className={(navData) => (navData.isActive ? styles.active : "")}
+              to="/registeredtrips"
+            >
+              Registered Trips
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </header>

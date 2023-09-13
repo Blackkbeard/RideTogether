@@ -8,7 +8,6 @@ router.get("/", authorize, async (req, res) => {
       "SELECT username FROM users WHERE user_id = $1",
       [req.user]
     );
-    console.log(1);
     //if would be req.user if you change your payload to this:
 
     //   function jwtGenerator(user_id) {

@@ -10,6 +10,7 @@ import Settings from "./pages/Settings";
 import AddPost from "./pages/AddPost";
 import PostPage from "./pages/PostPage";
 import Homepage from "./pages/Homepage";
+import TripsRegistered from "./pages/TripsRegistered";
 
 function App() {
   const fetchData = useFetch();
@@ -89,6 +90,7 @@ function App() {
           <Route path="/homepage" element={<Homepage />}></Route>
           {/* <Route path="/profile" element={<Profile />}></Route> */}
           <Route path="/settings" element={<Settings />}></Route>
+          <Route path="registeredtrips" element={<TripsRegistered />}></Route>
           <Route
             path="/settings/:id"
             element={<Settings open={open} setOpen={setOpen} />}

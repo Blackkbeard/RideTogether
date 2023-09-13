@@ -53,5 +53,31 @@ const deleteById = async (registration_id) => {
     [registration_id]
   );
 };
+const findPostsByUserId = async (user_id) => {
+  console.log({ user_id });
+  try {
+    const result = await pool.query(
+      "SELECT posts.* FROM post_registrations JOIN posts ON posts.post_id = post_registrations.post_id WHERE post_registrations.user_id = $1",
+      [user_id]
+    );
+    return result.rows;
+  } catch (error) {
+    throw error;
+  }
+};
 
-module.exports = { createPost, findByPostId, deleteById };
+const checkRegistrationExists = async (post_id, user_id) => {
+  const result = await pool.query(
+    `SELECT * FROM post_registrations WHERE post_id = $1 AND user_id = $2`,
+    [post_id, user_id]
+  );
+  return result.rows.length > 0;
+};
+
+module.exports = {
+  createPost,
+  findByPostId,
+  deleteById,
+  findPostsByUserId,
+  checkRegistrationExists,
+};

@@ -6,10 +6,10 @@ const Post = require("../models/posts");
 
 const newPost = async (req, res) => {
   try {
-    console.log(11);
-    console.log(req.body);
+    // console.log(11);
+    // console.log(req.body);
     const newPost = await Post.createPost(req.body);
-    console.log(newPost);
+    // console.log(newPost);
     res.status(201).json(newPost);
   } catch (err) {
     console.log(err);
@@ -31,10 +31,9 @@ const getAllPosts = async (req, res) => {
 
 const getPost = async (req, res) => {
   try {
-    console.log(1);
     const userId = req.params.user_id; // assuming you pass user_id as a route parameter
     const posts = await Post.getPostsByUserId(userId);
-    console.log(posts);
+    // console.log(posts);
     if (posts.length === 0) {
       return res.status(404).json({ message: "No posts found for this user." });
     }

@@ -27,6 +27,8 @@ const getEnquiryById = async (enquiry_id) => {
   return result.rows[0];
 };
 
+// models/postRegistration.js
+
 module.exports = {
   createEnquiry,
   getEnquiryById,
