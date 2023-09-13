@@ -134,9 +134,16 @@ const MyTrips = (props) => {
         throw new Error(data.message || "Failed to fetch registrants.");
       }
 
+      if (data.length === 0) {
+        alert("No users have registered for this post yet.");
+        return; // exit the function early
+      }
+
       setRegistrants(data);
       setRegistrantsModalOpen(true);
     } catch (error) {
+      alert("No users have registered for this post yet.");
+
       console.error("Error fetching the registrants:", error);
     }
   };
@@ -310,7 +317,8 @@ const MyTrips = (props) => {
             <ul>
               {registrants.map((user) => (
                 <li key={user.id}>
-                  {user.name} ({user.email})
+                  Name: {user.full_name}, Number: {user.mobile_number}, Email:{" "}
+                  {user.email}
                 </li>
               ))}
             </ul>
