@@ -19,15 +19,16 @@ const createPost = async (data) => {
 };
 
 const editPost = async (data) => {
-  const { post_id, location, duration, details, ride_date } = data;
+  const { post_id, location, details, ridetype, fromdate, todate, max_pax } =
+    data;
   const result = await pool.query(
     `
     UPDATE posts
-    SET location = $1, duration = $2, details = $3, ride_date = $4
-    WHERE post_id = $5
+    SET location = $1, details = $2, ridetype = $3, fromdate = $4, todate = $5, max_pax = $6
+    WHERE post_id = $7
     RETURNING *;
   `,
-    [title, content, post_id]
+    [location, details, ridetype, fromdate, todate, max_pax, post_id]
   );
 
   return result.rows[0];

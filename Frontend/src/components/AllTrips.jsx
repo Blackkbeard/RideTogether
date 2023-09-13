@@ -102,15 +102,15 @@ const AllTrips = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setModalOpen(false)} color="primary">
-            Close
-          </Button>
           <Button
             onClick={handleRegister}
             color="primary"
             disabled={registeredPosts.includes(selectedPost?.post_id)}
           >
             Register
+          </Button>
+          <Button onClick={() => setModalOpen(false)} color="primary">
+            Close
           </Button>
         </DialogActions>
       </Dialog>
