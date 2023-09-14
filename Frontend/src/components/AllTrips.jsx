@@ -197,7 +197,7 @@ const AllTrips = (props) => {
   }, [posts]);
 
   const getRandomImage = () => {
-    const totalImages = 7;
+    const totalImages = 16;
     const random = Math.floor(Math.random() * totalImages) + 1;
     return `/bikeimages/${random}.jpeg`;
   };
@@ -243,7 +243,7 @@ const AllTrips = (props) => {
       spacing={2}
     >
       {posts.length === 0 ? (
-        <Typography>No posts available</Typography>
+        <Typography style={{ marginTop: "2em" }}>No posts available</Typography>
       ) : (
         posts.map((post) => (
           <>
@@ -265,8 +265,8 @@ const AllTrips = (props) => {
                 }}
                 style={{
                   backgroundColor: "white",
-                  borderRadius: "2rem",
-                  border: "3px solid grey",
+                  borderRadius: "1rem",
+                  border: "3px solid black",
                   width: "325px",
                   marginLeft: "0.75em", // <-- Add this line
                 }}

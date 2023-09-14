@@ -99,10 +99,7 @@ const Homepage = () => {
               color="secondary"
               onChange={(e) => setSearchTerm(e.target.value)}
             >
-              <InputLabel
-                htmlFor="outlined-adornment"
-                sx={{ ml: "0.5rem", color: "white" }}
-              >
+              <InputLabel htmlFor="outlined-adornment" sx={{ ml: "0.5rem" }}>
                 <Typography>Search</Typography>
               </InputLabel>
               <OutlinedInput

@@ -55,16 +55,6 @@ const AddPost = () => {
 
   const action = (
     <React.Fragment>
-      <Button
-        style={{ color: "var(--dustypink)" }}
-        size="small"
-        onClick={() => {
-          navigate(`/listing/${newListingId}`);
-        }}
-      >
-        VIEW LISTING
-      </Button>
-
       <IconButton
         size="small"
         aria-label="close"
@@ -236,7 +226,6 @@ const AddPost = () => {
                 justifyContent="center"
                 alignItems="center"
               >
-                <Btn>Test</Btn>
                 <Btn onClick={createPost}>Create Ride Trip!</Btn>
               </Grid>
             </Grid>

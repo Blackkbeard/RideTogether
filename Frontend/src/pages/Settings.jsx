@@ -87,12 +87,17 @@ const Settings = (props) => {
   return (
     <>
       <AppBar />
-      <Container maxWidth="lg">
+      <Container>
         <Box>
-          <Grid container>
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+          >
             <Grid xs={12}>
-              <Typography variant="h5" textAlign="start" margin="2rem 0">
-                Account Settings
+              <Typography variant="h5" margin="1rem 0">
+                My Profile
               </Typography>
             </Grid>
 
@@ -105,7 +110,7 @@ const Settings = (props) => {
               >
                 Username
               </Typography>
-              <Typography gutterBottom variant="body1" sx={{ mb: "2rem" }}>
+              <Typography gutterBottom variant="body1" sx={{ mb: "1rem" }}>
                 {userCtx.userInfo.username}
               </Typography>
               <Typography
@@ -116,7 +121,7 @@ const Settings = (props) => {
               >
                 Full Name
               </Typography>
-              <Typography gutterBottom variant="body1" sx={{ mb: "2rem" }}>
+              <Typography gutterBottom variant="body1" sx={{ mb: "1rem" }}>
                 {userCtx.userInfo.full_name}
               </Typography>
 
@@ -128,7 +133,7 @@ const Settings = (props) => {
               >
                 Email
               </Typography>
-              <Typography gutterBottom variant="body1" sx={{ mb: "2rem" }}>
+              <Typography gutterBottom variant="body1" sx={{ mb: "1rem" }}>
                 {userCtx.userInfo.email}
               </Typography>
 
@@ -141,7 +146,7 @@ const Settings = (props) => {
                 Biography
               </Typography>
 
-              <Typography gutterBottom variant="body1" sx={{ mb: "2rem" }}>
+              <Typography gutterBottom variant="body1" sx={{ mb: "1rem" }}>
                 {userCtx.userInfo.biography}
               </Typography>
 
@@ -153,7 +158,7 @@ const Settings = (props) => {
               >
                 Mobile Number
               </Typography>
-              <Typography gutterBottom variant="body1" sx={{ mb: "2rem" }}>
+              <Typography gutterBottom variant="body1" sx={{ mb: "1rem" }}>
                 {userCtx.userInfo.mobile_number}
               </Typography>
 
@@ -165,7 +170,11 @@ const Settings = (props) => {
               >
                 Location
               </Typography>
-              <Typography gutterBottom variant="body1" sx={{ ml: "0" }}>
+              <Typography
+                gutterBottom
+                variant="body1"
+                sx={{ ml: "0", mb: "1rem" }}
+              >
                 {userCtx.userInfo?.location}
               </Typography>
             </Grid>

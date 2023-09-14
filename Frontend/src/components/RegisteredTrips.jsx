@@ -58,37 +58,88 @@ const RegisteredTrips = () => {
     }
   };
   const getRandomImage = () => {
-    const totalImages = 7; // if you have 10 images named 1.jpg, 2.jpg, ... 10.jpg
+    const totalImages = 16; // if you have 10 images named 1.jpg, 2.jpg, ... 10.jpg
     const random = Math.floor(Math.random() * totalImages) + 1;
     return `/bikeimages/${random}.jpeg`; // Change based on your image naming
   };
   return (
-    <Grid container spacing={2}>
+    <Grid
+      container
+      direction="row"
+      alignItems="center"
+      justifyContent="center"
+      spacing={2}
+      //   xs={{ mt: "1rem" }}
+    >
       {registeredTrips.length === 0 ? (
-        <Typography>No registered trips available</Typography>
+        <Typography
+          sx={{
+            width: "20rem",
+            mt: "2rem",
+            ml: "2rem",
+          }}
+        >
+          No registered trips available
+        </Typography>
       ) : (
         registeredTrips.map((trip) => (
-          <Grid item xs={12} md={6} key={trip.post_id}>
-            <Card variant="outlined">
-              <img src={getRandomImage()} alt="Random" />
-
-              <Typography variant="h6">{trip.location}</Typography>
-              <Typography>{trip.details}</Typography>
-              <Typography>Ride Type: {trip.ridetype}</Typography>
-              <Typography>
-                From: {new Date(trip.fromdate).toLocaleDateString()}
-              </Typography>
-              <Typography>
-                To: {new Date(trip.todate).toLocaleDateString()}
-              </Typography>
-              <Typography>Pax: {trip.max_pax}</Typography>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => handleDelete(trip.post_id)}
+          <Grid
+            item
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+            xs={12}
+            md={3}
+            sx={{ mt: "2rem" }}
+            key={trip.post_id}
+          >
+            <Card
+              variant="outlined"
+              style={{
+                backgroundColor: "white",
+                borderRadius: "1rem",
+                border: "3px solid black",
+                width: "325px",
+                marginLeft: "0.75em", // <-- Add this line
+              }}
+            >
+              <img
+                src={getRandomImage()}
+                alt="Random"
+                style={{
+                  width: "250px",
+                  height: "180px",
+                  paddingTop: "2rem",
+                  // borderRadius: "1rem",
+                  display: "block",
+                  margin: "0 auto", // Center the image horizontally
+                }}
+              />
+              <Grid
+                container
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
               >
-                Delete
-              </Button>
+                <Typography variant="h6">{trip.location}</Typography>
+                <Typography>{trip.details}</Typography>
+                <Typography>Ride Type: {trip.ridetype}</Typography>
+                <Typography>
+                  From: {new Date(trip.fromdate).toLocaleDateString()}
+                </Typography>
+                <Typography>
+                  To: {new Date(trip.todate).toLocaleDateString()}
+                </Typography>
+                <Typography>Pax: {trip.max_pax}</Typography>
+
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => handleDelete(trip.post_id)}
+                >
+                  Delete
+                </Button>
+              </Grid>
             </Card>
           </Grid>
         ))

@@ -150,7 +150,7 @@ const MyTrips = (props) => {
   };
 
   const getRandomImage = () => {
-    const totalImages = 7; // if you have 10 images named 1.jpg, 2.jpg, ... 10.jpg
+    const totalImages = 16; // if you have 10 images named 1.jpg, 2.jpg, ... 10.jpg
     const random = Math.floor(Math.random() * totalImages) + 1;
     return `/bikeimages/${random}.jpeg`; // Change based on your image naming
   };
@@ -171,7 +171,15 @@ const MyTrips = (props) => {
         spacing={2}
       >
         {props.posts.length === 0 ? (
-          <Typography>No posts available</Typography>
+          <Typography
+            sx={{
+              width: "20rem",
+              mt: "2rem",
+              textAlign: "center",
+            }}
+          >
+            No posts available
+          </Typography>
         ) : (
           props.posts.map((post) => (
             <Grid
