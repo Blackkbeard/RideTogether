@@ -80,45 +80,53 @@ const Homepage = () => {
 
   return (
     <>
-      <AppBar> </AppBar>
-      <Grid
-        container
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <FormControl
-          sx={{
-            width: "20rem",
-          }}
-          variant="outlined"
-          className="search-bar"
-          color="secondary"
-          onChange={(e) => setSearchTerm(e.target.value)}
-        >
-          <InputLabel htmlFor="outlined-adornment" sx={{ ml: "0.5rem" }}>
-            <Typography>Search</Typography>
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment"
-            type="text"
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton edge="end" disabled sx={{ mr: "0.1rem" }}>
-                  <SearchOutlinedIcon />
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Search"
-            className="search-bar"
+      <div style={{ backgroundColor: "", minHeight: "100vh" }}>
+        <AppBar> </AppBar>
+        <Grid container>
+          <Grid
+            container
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <FormControl
+              sx={{
+                width: "20rem",
+                mt: "2rem",
+              }}
+              variant="filled"
+              className="search-bar"
+              color="secondary"
+              onChange={(e) => setSearchTerm(e.target.value)}
+            >
+              <InputLabel
+                htmlFor="outlined-adornment"
+                sx={{ ml: "0.5rem", color: "white" }}
+              >
+                <Typography>Search</Typography>
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment"
+                type="text"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton edge="end" disabled sx={{ mr: "0.1rem" }}>
+                      <SearchOutlinedIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Search"
+                className="search-bar"
+              />
+            </FormControl>
+          </Grid>
+          <AllTrips
+            posts={filteredPosts()}
+            userInfo={userCtx}
+            registeredPosts={registeredPosts}
           />
-        </FormControl>
-      </Grid>
-      <AllTrips
-        posts={filteredPosts()}
-        userInfo={userCtx}
-        registeredPosts={registeredPosts}
-      />
+        </Grid>{" "}
+      </div>
     </>
   );
 };

@@ -253,7 +253,7 @@ const AllTrips = (props) => {
               alignItems="center"
               justifyContent="center"
               xs={12}
-              md={4}
+              md={3}
               key={post.post_id}
               sx={{ mt: "2rem" }}
             >
@@ -264,21 +264,28 @@ const AllTrips = (props) => {
                   setModalOpen(true);
                 }}
                 style={{
-                  backgroundColor: "lightblue",
-                  //   borderRadius: "2rem",
+                  backgroundColor: "white",
+                  borderRadius: "2rem",
                   border: "3px solid grey",
+                  width: "325px",
+                  marginLeft: "0.75em", // <-- Add this line
                 }}
               >
-                <Grid container sx={{ height: 350 }} justifyContent="center">
+                <Grid
+                  container
+                  spacing={1}
+                  sx={{ height: 350 }}
+                  justifyContent="center"
+                >
                   <Grid item xs={12}>
                     <img
                       src={postImages[post.post_id]}
                       alt="Random"
                       style={{
-                        width: "300px",
+                        width: "250px",
                         height: "180px",
                         paddingTop: "2rem",
-                        borderRadius: "1rem",
+                        // borderRadius: "1rem",
                         display: "block",
                         margin: "0 auto", // Center the image horizontally
                       }}
@@ -311,36 +318,53 @@ const AllTrips = (props) => {
       )}
 
       <Dialog open={isModalOpen} onClose={() => setModalOpen(false)}>
-        <DialogTitle>Destination: {selectedPost?.location}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            <img src={postImages[selectedPost?.post_id]} alt="Random" />
-            <Typography>{selectedPost?.details}</Typography>
-            <Typography>Ride Type: {selectedPost?.ridetype}</Typography>
-            <Typography>
-              From: {new Date(selectedPost?.fromdate).toLocaleDateString()}
-            </Typography>
-            <Typography>
-              To: {new Date(selectedPost?.todate).toLocaleDateString()}
-            </Typography>
-            <Typography>Pax: {selectedPost?.max_pax}</Typography>
-            <Typography>Posted By: {selectedPost?.full_name}</Typography>
-            <Typography>Posted By: {selectedPost?.email}</Typography>
-            <Typography>Posted By: {selectedPost?.mobile_number}</Typography>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={handleRegister}
-            color="primary"
-            disabled={registeredPosts.includes(selectedPost?.post_id)}
-          >
-            Register
-          </Button>
-          <Button onClick={() => setModalOpen(false)} color="primary">
-            Close
-          </Button>
-        </DialogActions>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <DialogTitle>Destination: {selectedPost?.location}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              <img
+                style={{
+                  width: "250px",
+                  height: "180px",
+                  paddingBottom: "1rem",
+                }}
+                src={postImages[selectedPost?.post_id]}
+                alt="Random"
+              />
+              <Typography>Trip Details: {selectedPost?.details}</Typography>
+              <Typography>Ride Type: {selectedPost?.ridetype}</Typography>
+              <Typography>
+                From: {new Date(selectedPost?.fromdate).toLocaleDateString()}
+              </Typography>
+              <Typography>
+                To: {new Date(selectedPost?.todate).toLocaleDateString()}
+              </Typography>
+              <Typography>
+                Pax: {selectedPost?.max_pax} Riders Wanted
+              </Typography>
+              <Typography>Posted By: {selectedPost?.full_name}</Typography>
+              <Typography>Posted By: {selectedPost?.email}</Typography>
+              <Typography>Posted By: {selectedPost?.mobile_number}</Typography>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={handleRegister}
+              color="success"
+              disabled={registeredPosts.includes(selectedPost?.post_id)}
+            >
+              Register
+            </Button>
+            <Button onClick={() => setModalOpen(false)} color="error">
+              Close
+            </Button>
+          </DialogActions>
+        </Grid>
       </Dialog>
     </Grid>
   );

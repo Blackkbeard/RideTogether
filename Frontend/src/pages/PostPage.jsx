@@ -61,10 +61,16 @@ const PostPage = (props) => {
       {/* <NavBar /> */}
       <AppBar />
       <Container>
-        <MyTrips posts={myTrips} />
-        <Grid>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          sx={{ marginTop: "1rem" }}
+        >
           <Btn onClick={() => navigate("/addpost")}>New Trip!</Btn>
         </Grid>
+        <MyTrips posts={myTrips} />
       </Container>
     </>
   );

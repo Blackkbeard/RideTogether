@@ -163,33 +163,75 @@ const MyTrips = (props) => {
   }, [props.posts]);
   return (
     <div>
-      <Grid container spacing={2}>
+      <Grid
+        container
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        spacing={2}
+      >
         {props.posts.length === 0 ? (
           <Typography>No posts available</Typography>
         ) : (
           props.posts.map((post) => (
-            <Grid item xs={12} md={6} key={post.post_id}>
-              <Card variant="outlined" sx={{ borderRadius: "1rem" }}>
-                <img src={imageUrls[post.post_id]} alt="Random" />
+            <Grid
+              item
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              xs={12}
+              md={4}
+              sx={{ mt: "2rem" }}
+              key={post.post_id}
+            >
+              <Card
+                variant="outlined"
+                style={{
+                  backgroundColor: "white",
+                  borderRadius: "1rem",
+                  border: "3px solid grey",
+                  width: "325px",
 
-                <Typography variant="h6">{post.location}</Typography>
-                <Typography>{post.details}</Typography>
-                <Typography>Ride Type: {post.ridetype}</Typography>
-                <Typography>
-                  From: {new Date(post.fromdate).toLocaleDateString()}
-                </Typography>
-                <Typography>
-                  To: {new Date(post.todate).toLocaleDateString()}
-                </Typography>
-                <Typography>Riders Wanted: {post.max_pax}</Typography>
-                <Button onClick={() => handleUsers(post)} color="success">
-                  Registered Users
-                </Button>
+                  marginLeft: "0.75em",
+                }}
+              >
+                <img
+                  src={imageUrls[post.post_id]}
+                  alt="Random"
+                  style={{
+                    width: "250px",
+                    height: "180px",
+                    paddingTop: "2rem",
+                    // borderRadius: "1rem",
+                    display: "block",
+                    margin: "0 auto", // Center the image horizontally
+                  }}
+                />
+                <Grid
+                  container
+                  direction="column"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Typography variant="h6">{post.location}</Typography>
+                  <Typography>{post.details}</Typography>
+                  <Typography>Ride Type: {post.ridetype}</Typography>
+                  <Typography>
+                    From: {new Date(post.fromdate).toLocaleDateString()}
+                  </Typography>
+                  <Typography>
+                    To: {new Date(post.todate).toLocaleDateString()}
+                  </Typography>
+                  <Typography>Riders Wanted: {post.max_pax}</Typography>
+                  <Button onClick={() => handleUsers(post)} color="success">
+                    Registered Users
+                  </Button>
 
-                <Button onClick={() => handleEdit(post)}>Edit</Button>
-                <Button onClick={() => handleDelete(post)} color="error">
-                  Delete
-                </Button>
+                  <Button onClick={() => handleEdit(post)}>Edit</Button>
+                  <Button onClick={() => handleDelete(post)} color="error">
+                    Delete
+                  </Button>
+                </Grid>
               </Card>
             </Grid>
           ))
@@ -197,111 +239,130 @@ const MyTrips = (props) => {
       </Grid>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Post</DialogTitle>
-        <DialogContent>
-          {currentPost && (
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Grid container spacing={3}>
-                <Container maxWidth="lg">
-                  <Box>
-                    <Grid container spacing={3}>
-                      <Grid
-                        xs={12}
-                        container
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                      >
-                        <TextField
-                          required
-                          label="City, Country"
-                          variant="outlined"
-                          sx={{ width: "25rem", mb: "1rem" }}
-                          inputRef={titleRef}
-                          helperText="Name your location of travel"
-                        />
-                        <TextField
-                          required
-                          multiline
-                          minRows={4}
-                          label="Description"
-                          variant="outlined"
-                          sx={{ width: "25rem", mb: "1rem" }}
-                          inputRef={descriptionRef}
-                          helperText="Describe Trip details (E.g Purpose of travel, etc)"
-                        />
-                        <TextField
-                          required
-                          type="number"
-                          label="No. of Pax"
-                          variant="outlined"
-                          sx={{ width: "25rem", mb: "1rem" }}
-                          InputProps={{ inputProps: { min: 0 } }}
-                          inputRef={paxRef}
-                          helperText="Number of people you want to travel with"
-                        />
-                        <TextField
-                          required
-                          select
-                          label="Type"
-                          variant="outlined"
-                          sx={{ width: "25rem", mb: "1rem" }}
-                          inputRef={typeRef}
-                          helperText="Type of Ride"
-                        >
-                          <MenuItem value="Racing">Racing</MenuItem>
-                          <MenuItem value="Touring">Touring</MenuItem>
-                          <MenuItem value="Leisure">Leisure</MenuItem>
-                          <MenuItem value="Tracks">Tracks</MenuItem>
-                        </TextField>
-                        <DatePicker
-                          disablePast
-                          label="Available from"
-                          variant="outlined"
-                          sx={{ width: "25rem", mb: "1rem" }}
-                          onChange={(e) =>
-                            setDateFrom(e.$d.toISOString().split("T")[0])
-                          }
-                          slotProps={{
-                            textField: {
-                              required: true,
-                            },
-                          }}
-                        />
-                        <DatePicker
-                          disablePast
-                          minDate={dayjs(dateFrom + 48)}
-                          label="Available to"
-                          variant="outlined"
-                          sx={{ width: "25rem" }}
-                          onChange={(e) =>
-                            setDateTo(e.$d.toISOString().split("T")[0])
-                          }
-                        />
-                      </Grid>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <DialogTitle>Edit Post</DialogTitle>
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <DialogContent sx={{ maxHeight: "70vh", overflowY: "auto" }}>
+              {currentPost && (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <Grid
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Container maxWidth="lg">
+                      <Box>
+                        <Grid container spacing={1}>
+                          <Grid
+                            xs={12}
+                            container
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="center"
+                          >
+                            <TextField
+                              required
+                              label="City, Country"
+                              variant="outlined"
+                              sx={{ width: "25rem", mb: "1rem" }}
+                              inputRef={titleRef}
+                              helperText="Name your location of travel"
+                            />
+                            <TextField
+                              required
+                              multiline
+                              minRows={4}
+                              label="Description"
+                              variant="outlined"
+                              sx={{ width: "25rem", mb: "1rem" }}
+                              inputRef={descriptionRef}
+                              helperText="Describe Trip details (E.g Purpose of travel, etc)"
+                            />
+                            <TextField
+                              required
+                              type="number"
+                              label="No. of Pax"
+                              variant="outlined"
+                              sx={{ width: "25rem", mb: "1rem" }}
+                              InputProps={{ inputProps: { min: 0 } }}
+                              inputRef={paxRef}
+                              helperText="Number of people you want to travel with"
+                            />
+                            <TextField
+                              required
+                              select
+                              label="Type"
+                              variant="outlined"
+                              sx={{ width: "25rem", mb: "1rem" }}
+                              inputRef={typeRef}
+                              helperText="Type of Ride"
+                            >
+                              <MenuItem value="Racing">Racing</MenuItem>
+                              <MenuItem value="Touring">Touring</MenuItem>
+                              <MenuItem value="Leisure">Leisure</MenuItem>
+                              <MenuItem value="Tracks">Tracks</MenuItem>
+                            </TextField>
+                            <DatePicker
+                              disablePast
+                              label="Available from"
+                              variant="outlined"
+                              sx={{ width: "25rem", mb: "1rem" }}
+                              onChange={(e) =>
+                                setDateFrom(e.$d.toISOString().split("T")[0])
+                              }
+                              slotProps={{
+                                textField: {
+                                  required: true,
+                                },
+                              }}
+                            />
+                            <DatePicker
+                              disablePast
+                              minDate={dayjs(dateFrom + 48)}
+                              label="Available to"
+                              variant="outlined"
+                              sx={{ width: "25rem" }}
+                              onChange={(e) =>
+                                setDateTo(e.$d.toISOString().split("T")[0])
+                              }
+                            />
+                          </Grid>
 
-                      <Grid
-                        xs={12}
-                        container
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                      ></Grid>
-                    </Grid>
-                  </Box>
-                </Container>{" "}
-              </Grid>
-            </LocalizationProvider>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleSaveEdit} color="primary">
-            Save
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
+                          <Grid
+                            xs={12}
+                            container
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="center"
+                          ></Grid>
+                        </Grid>
+                      </Box>
+                    </Container>{" "}
+                  </Grid>
+                </LocalizationProvider>
+              )}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleSaveEdit} color="primary">
+                Save
+              </Button>
+              <Button onClick={handleClose} color="primary">
+                Cancel
+              </Button>
+            </DialogActions>
+          </Grid>
+        </Grid>
       </Dialog>
       <Dialog
         open={isRegistrantsModalOpen}
