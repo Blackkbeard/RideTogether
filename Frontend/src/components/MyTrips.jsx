@@ -182,12 +182,14 @@ const MyTrips = (props) => {
                   To: {new Date(post.todate).toLocaleDateString()}
                 </Typography>
                 <Typography>Riders Wanted: {post.max_pax}</Typography>
-                <Button onClick={() => handleUsers(post)}>
+                <Button onClick={() => handleUsers(post)} color="success">
                   Registered Users
                 </Button>
 
                 <Button onClick={() => handleEdit(post)}>Edit</Button>
-                <Button onClick={() => handleDelete(post)}>Delete</Button>
+                <Button onClick={() => handleDelete(post)} color="error">
+                  Delete
+                </Button>
               </Card>
             </Grid>
           ))

@@ -84,7 +84,7 @@ const RegisteredTrips = () => {
               <Typography>Pax: {trip.max_pax}</Typography>
               <Button
                 variant="contained"
-                color="secondary"
+                color="error"
                 onClick={() => handleDelete(trip.post_id)}
               >
                 Delete
