@@ -7,11 +7,12 @@ const path = require("path");
 const IMAGE_DIR = path.join(
   "/Users",
   "vinesh",
+  "Documents",
   "GeneralAssembly",
-  "RideTogether ",
+  "RideTogether",
   "Randombikes"
 );
-
+console.log(IMAGE_DIR);
 const getRandomImage = (callback) => {
   fs.readdir(IMAGE_DIR, (err, files) => {
     if (err) {

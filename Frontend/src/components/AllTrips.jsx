@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import {
   Card,
   Typography,
@@ -15,11 +15,13 @@ import UserContext from "../context/user";
 const AllTrips = (props) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState("");
+  const [imageSrc, setImageSrc] = useState("");
+
   const posts = props.posts;
   const registeredPosts = props.registeredPosts;
+
   const userCtx = useContext(UserContext);
   const { userInfo, accessToken } = userCtx;
-  const [imageSrc, setImageSrc] = useState("");
 
   const handleRegister = async () => {
     const payload = {
@@ -57,48 +59,59 @@ const AllTrips = (props) => {
       console.log(2);
     }
   };
-  useEffect(() => {
-    // Fetch random image when component mounts
-    fetch("http://127.0.0.1:5173/api/randomimage")
-      .then((res) => res.blob())
-      .then((blob) => {
-        const imgURL = URL.createObjectURL(blob);
-        setImageSrc(imgURL);
-      })
-      .catch((error) => console.error("Error fetching image:", error));
-  }, []);
+
+  //   const getRandomImage = () => {
+  //     const fileCount = fs.readdirSync(path.join(process.cwd(), "public"));
+  //     const random = Math.ceil(Math.random() * fileCount);
+
+  //     return "/" + random + ".jpg";
+  //   };
+
+  //   useEffect(() => {
+  //     // Fetch random image when component mounts
+  //     fetch("http://127.0.0.1:5173/api/randomimage")
+  //       .then((res) => res.blob())
+  //       .then((blob) => {
+  //         const imgURL = URL.createObjectURL(blob);
+  //         setImageSrc(imgURL);
+  //       })
+  //       .catch((error) => console.error("Error fetching image:", error));
+  //   }, []);
+
   return (
     <Grid container spacing={2}>
-      <img src={imageSrc} alt="Random from storage" />
       {posts.length === 0 ? (
         <Typography>No posts available</Typography>
       ) : (
         posts.map((post) => (
-          <Grid item xs={12} md={6} key={post.post_id}>
-            <Card
-              variant="outlined"
-              onClick={() => {
-                setSelectedPost(post);
-                setModalOpen(true);
-              }}
-            >
-              <Typography variant="h6">{post.location}</Typography>
-              <Typography>{post.details}</Typography>
-              <Typography>Ride Type: {post.ridetype}</Typography>
-              <Typography>
-                From: {new Date(post.fromdate).toLocaleDateString()}
-              </Typography>
-              <Typography>
-                To: {new Date(post.todate).toLocaleDateString()}
-              </Typography>
-              <Typography>Pax: {post.max_pax}</Typography>
-            </Card>
-          </Grid>
+          <>
+            {JSON.stringify(post)}
+            <Grid item xs={12} md={6} key={post.post_id}>
+              {/* <img src={getRandomImage()} alt="Random from storage" /> */}
+              <Card
+                variant="outlined"
+                onClick={() => {
+                  setSelectedPost(post);
+                  setModalOpen(true);
+                }}
+              >
+                <Typography variant="h6">{post.location}</Typography>
+                <Typography>Ride Type: {post.ridetype}</Typography>
+                <Typography>
+                  From: {new Date(post.fromdate).toLocaleDateString()}
+                </Typography>
+                <Typography>
+                  To: {new Date(post.todate).toLocaleDateString()}
+                </Typography>
+                <Typography>Pax: {post.max_pax}</Typography>
+              </Card>
+            </Grid>
+          </>
         ))
       )}
 
       <Dialog open={isModalOpen} onClose={() => setModalOpen(false)}>
-        <DialogTitle>{selectedPost?.location}</DialogTitle>
+        <DialogTitle>Destination: {selectedPost?.location}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             <Typography>{selectedPost?.details}</Typography>
@@ -110,6 +123,8 @@ const AllTrips = (props) => {
               To: {new Date(selectedPost?.todate).toLocaleDateString()}
             </Typography>
             <Typography>Pax: {selectedPost?.max_pax}</Typography>
+            <Typography>Posted By: {selectedPost?.full_name}</Typography>
+            <Typography>Posted By: {selectedPost?.email}</Typography>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

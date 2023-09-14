@@ -62,9 +62,36 @@ const deletePost = async (post_id) => {
 
   return result.rows[0];
 };
+// const getPosts = async () => {
+//   try {
+//     const result = await pool.query(`SELECT * FROM posts`);
+//     return result.rows;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 const getPosts = async () => {
   try {
-    const result = await pool.query(`SELECT * FROM posts`);
+    const query = `
+      SELECT 
+        posts.post_id, 
+        posts.location, 
+        posts.max_pax, 
+        posts.details, 
+        posts.ridetype,
+        posts.fromdate,
+        posts.todate,
+
+        users.full_name, 
+        users.mobile_number, 
+        users.email 
+      FROM 
+        posts 
+      JOIN 
+        users ON posts.user_id = users.user_id;
+    `;
+    console.log(query);
+    const result = await pool.query(query);
     return result.rows;
   } catch (error) {
     throw error;
