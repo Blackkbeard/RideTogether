@@ -147,6 +147,13 @@ const MyTrips = (props) => {
       console.error("Error fetching the registrants:", error);
     }
   };
+
+  const getRandomImage = () => {
+    const totalImages = 7; // if you have 10 images named 1.jpg, 2.jpg, ... 10.jpg
+    const random = Math.floor(Math.random() * totalImages) + 1;
+    return `/bikeimages/${random}.jpeg`; // Change based on your image naming
+  };
+
   return (
     <div>
       <Grid container spacing={2}>
@@ -155,7 +162,9 @@ const MyTrips = (props) => {
         ) : (
           props.posts.map((post) => (
             <Grid item xs={12} md={6} key={post.post_id}>
-              <Card variant="outlined">
+              <Card variant="outlined" sx={{ borderRadius: "1rem" }}>
+                <img src={getRandomImage()} alt="Random" />
+
                 <Typography variant="h6">{post.location}</Typography>
                 <Typography>{post.details}</Typography>
                 <Typography>Ride Type: {post.ridetype}</Typography>

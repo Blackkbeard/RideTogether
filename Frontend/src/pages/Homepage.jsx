@@ -2,12 +2,33 @@ import React, { useContext, useState, useEffect } from "react";
 import UserContext from "../context/user";
 import NavBar from "../components/NavBar";
 import AllTrips from "../components/AllTrips";
+import Grid from "@mui/material/Grid";
+import {
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  Typography,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 const Homepage = () => {
   const userCtx = useContext(UserContext);
   console.log(userCtx);
   const [posts, setPosts] = useState([]);
   const [registeredPosts, setRegisteredPosts] = useState([]);
+  const [searchPost, setSearchPost] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Search filter
+  const filteredPosts = () => {
+    return posts.filter(
+      (post) =>
+        post.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.details.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
 
   useEffect(() => {
     // Fetch all available posts
@@ -30,6 +51,7 @@ const Homepage = () => {
       const data = await response.json();
       if (response.ok) {
         setPosts(data);
+        setSearchPost(data);
       } else {
         console.error("Error fetching all posts:", data.message);
       }
@@ -58,9 +80,41 @@ const Homepage = () => {
   return (
     <>
       <NavBar />
-      <h1>Welcome to the Homepage</h1>
+      <Grid
+        container
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <FormControl
+          sx={{
+            width: "20rem",
+          }}
+          variant="outlined"
+          className="search-bar"
+          color="secondary"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        >
+          <InputLabel htmlFor="outlined-adornment" sx={{ ml: "0.5rem" }}>
+            <Typography>Search</Typography>
+          </InputLabel>
+          <OutlinedInput
+            id="outlined-adornment"
+            type="text"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton edge="end" disabled sx={{ mr: "0.1rem" }}>
+                  <SearchOutlinedIcon />
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Search"
+            className="search-bar"
+          />
+        </FormControl>
+      </Grid>
       <AllTrips
-        posts={posts}
+        posts={filteredPosts()}
         userInfo={userCtx}
         registeredPosts={registeredPosts}
       />

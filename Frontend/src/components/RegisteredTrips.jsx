@@ -57,7 +57,11 @@ const RegisteredTrips = () => {
       console.error("Error deleting trip:", error);
     }
   };
-
+  const getRandomImage = () => {
+    const totalImages = 7; // if you have 10 images named 1.jpg, 2.jpg, ... 10.jpg
+    const random = Math.floor(Math.random() * totalImages) + 1;
+    return `/bikeimages/${random}.jpeg`; // Change based on your image naming
+  };
   return (
     <Grid container spacing={2}>
       {registeredTrips.length === 0 ? (
@@ -66,6 +70,8 @@ const RegisteredTrips = () => {
         registeredTrips.map((trip) => (
           <Grid item xs={12} md={6} key={trip.post_id}>
             <Card variant="outlined">
+              <img src={getRandomImage()} alt="Random" />
+
               <Typography variant="h6">{trip.location}</Typography>
               <Typography>{trip.details}</Typography>
               <Typography>Ride Type: {trip.ridetype}</Typography>

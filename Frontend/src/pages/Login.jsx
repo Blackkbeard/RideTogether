@@ -71,62 +71,76 @@ function Login(props) {
   //     </div>
   //   );
   return (
-    <Container maxWidth="lg">
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
-        }}
-        noValidate
-        autoComplete="off"
+    <Grid
+      container
+      alignItems="center"
+      sx={{ borderStyle: "solid", height: "100vh" }}
+    >
+      <Grid
+        item
+        xs={12}
+        container
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        sx={{ borderStyle: "solid" }}
       >
-        <Grid container alignItems="center">
-          <Grid
-            xs={6}
-            container
-            direction="column"
-            justifycontent="center"
-            alignItems="center"
-          >
-            <Typography variant="h5" textAlign="start" margin="2rem 0">
-              Sign-in
-            </Typography>
-            <TextField
-              label="Email"
-              variant="outlined"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              label="Password"
-              type="password"
-              variant="outlined"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <Btn variant="text" onClick={handleLogin}>
-              Login
-            </Btn>
-
-            <Typography
-              variant="subtitle"
-              textAlign="start"
-              margin="1rem 0"
-              sx={{ fontSize: "12px" }}
+        <Box
+          component="form"
+          sx={{
+            "& .MuiTextField-root": { m: 1, width: "25ch" },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <Grid container alignItems="center">
+            <Grid
+              xs={6}
+              container
+              direction="column"
+              justifycontent="center"
+              alignItems="center"
             >
-              No account?{" "}
-              <Link
-                onClick={() => {
-                  navigate("/registration");
-                }}
-                underline="always"
+              <Typography variant="h5" textAlign="start" margin="2rem 0">
+                Sign-in
+              </Typography>
+              <TextField
+                label="Email"
+                variant="outlined"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                label="Password"
+                type="password"
+                variant="outlined"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <Btn variant="text" onClick={handleLogin}>
+                Login
+              </Btn>
+
+              <Typography
+                variant="subtitle"
+                textAlign="start"
+                margin="1rem 0"
+                sx={{ fontSize: "12px" }}
               >
-                Register
-              </Link>
-            </Typography>
+                No account?{" "}
+                <Link
+                  onClick={() => {
+                    navigate("/registration");
+                  }}
+                  underline="always"
+                >
+                  Register
+                </Link>
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-    </Container>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }
 
