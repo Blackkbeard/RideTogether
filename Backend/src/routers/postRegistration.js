@@ -6,12 +6,13 @@ const {
   findRegister,
   deleteRegister,
   findAllPostsByUserId,
+  deleteRegisteredPost,
 } = require("../controller/postRegistration");
 
 router.post("/registerPost", postRegister);
 router.get("/:post_id", findRegister);
 router.get("/registeredpost/:user_id", findAllPostsByUserId);
-
+router.delete("/deleteRegisteredPost/:post_id/:user_id", deleteRegisteredPost);
 router.delete("/:registrationId", deleteRegister);
 
 module.exports = router;

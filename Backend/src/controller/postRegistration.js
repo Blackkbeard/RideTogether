@@ -7,6 +7,7 @@ const {
   deleteById,
   findPostsByUserId,
   checkRegistrationExists,
+  deleteByPostAndUser,
 } = require("../models/postRegistration");
 
 // const postRegister = async (req, res) => {
@@ -61,9 +62,22 @@ const findAllPostsByUserId = async (req, res) => {
   }
 };
 
+const deleteRegisteredPost = async (req, res) => {
+  const { post_id } = req.params;
+  const { user_id } = req.params; // Assuming you send the user_id in the request body
+  console.log(post_id, user_id);
+  try {
+    await deleteByPostAndUser(post_id, user_id);
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+
 module.exports = {
   postRegister,
   findRegister,
   deleteRegister,
   findAllPostsByUserId,
+  deleteRegisteredPost,
 };

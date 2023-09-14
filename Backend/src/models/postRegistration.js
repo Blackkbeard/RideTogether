@@ -74,10 +74,18 @@ const checkRegistrationExists = async (post_id, user_id) => {
   return result.rows.length > 0;
 };
 
+const deleteByPostAndUser = async (post_id, user_id) => {
+  await pool.query(
+    `DELETE FROM post_registrations WHERE post_id = $1 AND user_id = $2`,
+    [post_id, user_id]
+  );
+};
+
 module.exports = {
   createPost,
   findByPostId,
   deleteById,
   findPostsByUserId,
   checkRegistrationExists,
+  deleteByPostAndUser,
 };

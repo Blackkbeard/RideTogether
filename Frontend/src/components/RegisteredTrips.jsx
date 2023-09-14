@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Card, Typography, Grid } from "@mui/material";
+import { Card, Typography, Grid, Button } from "@mui/material";
 import UserContext from "../context/user";
 
 const RegisteredTrips = () => {
   const [registeredTrips, setRegisteredTrips] = useState([]);
   const userCtx = useContext(UserContext);
   const user_id = userCtx.userInfo.user_id;
+
   console.log(user_id);
   useEffect(() => {
     const fetchRegisteredTrips = async () => {
@@ -27,6 +28,35 @@ const RegisteredTrips = () => {
 
     fetchRegisteredTrips();
   }, [user_id]);
+  const handleDelete = async (postId) => {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5173/api/post/deleteRegisteredPost/" +
+          postId +
+          "/" +
+          user_id,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_id: user_id }), // Send the user_id in the request body
+        }
+      );
+
+      if (response.ok) {
+        const updatedTrips = registeredTrips.filter(
+          (trip) => trip.post_id !== postId
+        );
+        setRegisteredTrips(updatedTrips);
+      } else {
+        const data = await response.json();
+        console.error("Error deleting trip:", data.message);
+      }
+    } catch (error) {
+      console.error("Error deleting trip:", error);
+    }
+  };
 
   return (
     <Grid container spacing={2}>
@@ -46,6 +76,13 @@ const RegisteredTrips = () => {
                 To: {new Date(trip.todate).toLocaleDateString()}
               </Typography>
               <Typography>Pax: {trip.max_pax}</Typography>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => handleDelete(trip.post_id)}
+              >
+                Delete
+              </Button>
             </Card>
           </Grid>
         ))
