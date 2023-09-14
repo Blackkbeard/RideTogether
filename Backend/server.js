@@ -1,6 +1,5 @@
 const express = require("express");
 const pool = require("./db");
-const riderRoutes = require("./src/routers/routes");
 const app = express();
 const jwtAuth = require("./src/routers/jwtAuth");
 const cors = require("cors");

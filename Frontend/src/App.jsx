@@ -92,7 +92,7 @@ function App() {
           <Route path="/settings" element={<Settings />}></Route>
           <Route path="registeredtrips" element={<TripsRegistered />}></Route>
           <Route
-            path="/settings/:id"
+            path="/settings"
             element={<Settings open={open} setOpen={setOpen} />}
           ></Route>
         </Routes>

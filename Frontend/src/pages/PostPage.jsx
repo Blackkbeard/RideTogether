@@ -8,6 +8,7 @@ import Btn from "../components/Btn";
 import NavBar from "../components/NavBar";
 import { Container, Typography, Box } from "@mui/material";
 import MyTrips from "../components/MyTrips";
+import AppBar from "../components/AppBar";
 
 const PostPage = (props) => {
   const userCtx = useContext(UserContext);
@@ -57,8 +58,8 @@ const PostPage = (props) => {
 
   return (
     <>
-      <h1>My Trips</h1>
-      <NavBar />
+      {/* <NavBar /> */}
+      <AppBar />
       <Container>
         <MyTrips posts={myTrips} />
         <Grid>

@@ -21,10 +21,12 @@ import Btn from "../components/Btn";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Avt from "../components/Avt";
 import NavBar from "../components/NavBar";
+import AppBar from "../components/AppBar";
 
 const Settings = (props) => {
   const userCtx = useContext(UserContext);
   const userFullInfo = userCtx.userInfo;
+  const user_id = userCtx.userInfo.user_id;
   const [openUpdate, setOpenUpdate] = useState(false);
   const [location, setLocation] = useState("");
   const newNameRef = useRef();
@@ -32,6 +34,7 @@ const Settings = (props) => {
   const newNumberRef = useRef();
   const newEmailRef = useRef();
   const newFullNameref = useRef();
+  const newPasswordref = useRef();
 
   const fetchData = useFetch();
 
@@ -43,41 +46,10 @@ const Settings = (props) => {
     setOpenUpdate(false);
   };
 
-  // const updateUser = async () => {
-  //   const res = await fetchData(
-  //     "/auth/update/" + userFullInfo._id,
-  //     "PATCH",
-
-  //     {
-  //       display_name: newNameRef.current.value,
-  //       biography: newBioRef.current.value,
-  //       mobile_number: newNumberRef.current.value,
-  //       email: newEmailRef.current.value,
-  //       location: [
-  //         {
-  //           district: district1,
-  //           postal_code: newZipRef.current.value,
-  //         },
-  //       ],
-  //     },
-  //     userCtx.accessToken
-  //   );
-
-  //   if (res.ok) {
-  //     handleCloseUpdate();
-  //     console.log(res.data);
-  //     userCtx.getUserInfo();
-  //   } else {
-  //     console.log(res.data);
-  //   }
-  // };
-
-  //for image upload
-
   const updateUser = async () => {
     try {
       const response = await fetch(
-        "http://127.0.0.1:5173/auth/update/" + userFullInfo.id,
+        "http://127.0.0.1:5173/auth/update/" + user_id,
         {
           method: "PATCH",
           headers: {
@@ -87,7 +59,8 @@ const Settings = (props) => {
           body: JSON.stringify({
             email: newEmailRef.current.value,
             username: newNameRef.current.value,
-            full_name: newFullName.current.value,
+            password: newPasswordref.current.value,
+            full_name: newFullNameref.current.value,
             biography: newBioRef.current.value,
             mobile_number: newNumberRef.current.value,
             location: location,
@@ -111,60 +84,9 @@ const Settings = (props) => {
 
   const [file, setFile] = useState();
 
-  // const submit = async (event) => {
-  //   event.preventDefault();
-  //   if (!file) {
-  //     alert("Please select an image file");
-  //     return;
-  //   }
-  //   const formData = new FormData();
-  //   formData.append("image", file);
-  //   formData.append("user_id", userFullInfo._id);
-
-  //   const res = await fetch(
-  //     import.meta.env.VITE_SERVER + "/api/images/avatars",
-  //     {
-  //       method: "POST",
-  //       headers: {},
-  //       body: formData,
-  //     }
-  //   );
-  //   const data = await res.json();
-
-  //   let returnValue = {};
-  //   if (res.ok) {
-  //     if (data.status === "error") {
-  //       returnValue = { ok: false, data: data.msg };
-  //       alert(JSON.stringify(returnValue.data));
-  //     } else {
-  //       returnValue = { ok: true, data };
-  //       alert("Profile Picture updated");
-  //       userCtx.getUserInfo();
-  //     }
-  //   } else {
-  //     if (data?.errors && Array.isArray(data.errors)) {
-  //       const messages = data.errors.map((item) => item.msg);
-  //       returnValue = { ok: false, data: messages };
-  //       alert(returnValue.data);
-  //     } else if (data?.status === "error") {
-  //       returnValue = { ok: false, data: data.message || data.msg };
-  //       alert(returnValue.data);
-  //     } else {
-  //       returnValue = { ok: false, data: "An error has occurred" };
-  //       alert(returnValue.data);
-  //     }
-  //   }
-  // };
-
-  // const fileSelected = (event) => {
-  //   const file = event.target.files[0];
-  //   setFile(file);
-  // };
-
   return (
     <>
-      <NavBar className="w-25 p-3"></NavBar>
-
+      <AppBar />
       <Container maxWidth="lg">
         <Box>
           <Grid container>
@@ -173,17 +95,7 @@ const Settings = (props) => {
                 Account Settings
               </Typography>
             </Grid>
-            <Grid xs={4}>
-              {/* <Avt src={userCtx.userInfo.image_url} size="15"></Avt>
-              <br />
-              <input
-                onChange={fileSelected}
-                type="file"
-                accept="image/*"
-              ></input>
 
-              <Btn onClick={submit}>Update</Btn> */}
-            </Grid>
             <Grid xs={8}>
               <Typography
                 gutterBottom
@@ -191,10 +103,21 @@ const Settings = (props) => {
                 fontWeight="bold"
                 className="burgundy-text"
               >
-                Name
+                Username
               </Typography>
               <Typography gutterBottom variant="body1" sx={{ mb: "2rem" }}>
                 {userCtx.userInfo.username}
+              </Typography>
+              <Typography
+                gutterBottom
+                variant="h6"
+                fontWeight="bold"
+                className="burgundy-text"
+              >
+                Full Name
+              </Typography>
+              <Typography gutterBottom variant="body1" sx={{ mb: "2rem" }}>
+                {userCtx.userInfo.full_name}
               </Typography>
 
               <Typography
@@ -245,13 +168,6 @@ const Settings = (props) => {
               <Typography gutterBottom variant="body1" sx={{ ml: "0" }}>
                 {userCtx.userInfo?.location}
               </Typography>
-              {/* <Typography
-                gutterBottom
-                variant="body1"
-                sx={{ ml: "0", mb: "2rem" }}
-              >
-                {userCtx.userInfo?.location}
-              </Typography> */}
             </Grid>
             <Grid xs={4}></Grid>
             <Grid xs={8}>
@@ -278,15 +194,23 @@ const Settings = (props) => {
           <TextField
             type="text"
             margin="dense"
-            defaultValue={userCtx.userInfo.display_name}
-            label="Name"
+            defaultValue={userCtx.userInfo.username}
+            label="Username"
             variant="outlined"
             sx={{ width: "32rem" }}
             inputRef={newNameRef}
           ></TextField>
+          <TextField
+            type="text"
+            margin="dense"
+            defaultValue={userCtx.userInfo.full_name}
+            label="Name"
+            variant="outlined"
+            sx={{ width: "32rem" }}
+            inputRef={newFullNameref}
+          ></TextField>
 
           <TextField
-            disabled
             type="text"
             margin="dense"
             label="Email"
@@ -294,6 +218,14 @@ const Settings = (props) => {
             variant="outlined"
             sx={{ width: "32rem" }}
             inputRef={newEmailRef}
+          ></TextField>
+          <TextField
+            type="text"
+            margin="dense"
+            label="password"
+            variant="outlined"
+            sx={{ width: "32rem" }}
+            inputRef={newPasswordref}
           ></TextField>
 
           <TextField

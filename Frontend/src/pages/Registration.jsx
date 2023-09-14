@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
-// import Grid from "@mui/system/Unstable_Grid/Grid";
 import {
   Container,
   Typography,
@@ -12,6 +11,7 @@ import {
 } from "@mui/material";
 import Btn from "../components/Btn";
 import CityEnums from "../enums/CityEnums";
+import AppBar from "../components/AppBar";
 
 const Registration = (props) => {
   const [email, setEmail] = useState("");
@@ -58,6 +58,7 @@ const Registration = (props) => {
 
   return (
     <>
+      <AppBar />
       <Container maxWidth="lg">
         <Box
           component="form"

@@ -265,7 +265,7 @@ const AllTrips = (props) => {
                 }}
                 style={{
                   backgroundColor: "lightblue",
-                  borderRadius: "2rem",
+                  //   borderRadius: "2rem",
                   border: "3px solid grey",
                 }}
               >

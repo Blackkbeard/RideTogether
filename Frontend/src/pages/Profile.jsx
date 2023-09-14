@@ -9,6 +9,7 @@ import { Container, Typography, Box } from "@mui/material";
 import Avt from "../components/Avt";
 import Btn from "../components/Btn";
 import NavBar from "../components/NavBar";
+import AppBar from "../components/AppBar";
 
 const Profile = (props) => {
   const params = useParams();
@@ -72,7 +73,8 @@ const Profile = (props) => {
 
   return (
     <div>
-      <NavBar className="w-25 p-3"></NavBar>
+      {/* <NavBar className="w-25 p-3"></NavBar> */}
+      <AppBar />
       <Container>
         <Grid container>
           <Grid xs={2} sx={{ mt: "2rem" }}>

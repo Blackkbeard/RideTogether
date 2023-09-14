@@ -162,83 +162,152 @@ const getUserById = async (req, res) => {
 //     res.json({ status: "error", msg: error.message });
 //   }
 // };
+// const updateUser = async (req, res) => {
+//   console.log(req.params.id);
+//   try {
+//     const user_id = req.params.id;
+//     const { username, email, password, full_name } = req.body;
+
+//     // 1. Check if the user exists
+//     const user = await pool.query("SELECT * FROM users WHERE user_id = $1", [
+//       user_id,
+//     ]);
+//     console.log(2);
+//     if (user.rows.length === 0) {
+//       return res.status(401).json("User not found");
+//     }
+
+//     let updatedFields = [];
+//     let values = [];
+//     const conditions = [];
+//     console.log(3);
+//     if (username) {
+//       updatedFields.push("username");
+//       values.push(username);
+//       conditions.push(`username = $${values.length}`);
+//     }
+//     console.log(4);
+//     if (full_name) {
+//       updatedFields.push("full_name");
+//       values.push(full_name);
+//       conditions.push(`full_name = $${values.length}`);
+//     }
+//     console.log(5);
+//     if (password) {
+//       // bcrypt the new password
+//       const saltRound = 5;
+//       const salt = await bcrypt.genSalt(saltRound);
+//       const bcryptPassword = await bcrypt.hash(password, salt);
+
+//       updatedFields.push("password");
+//       values.push(bcryptPassword);
+//       conditions.push(`password = $${values.length}`);
+//     }
+//     console.log(6);
+//     if (!updatedFields.length) {
+//       return res.status(400).json("No fields to update");
+//     }
+
+//     // Add email as last value for WHERE condition
+//     values.push(email);
+
+//     // Create SQL UPDATE statement
+//     // Vinesh update SQL command
+//     const updateSQL = `
+//       UPDATE users
+//       SET ${conditions.join(", ")}
+//       WHERE email = $${values.length}
+//       RETURNING *;
+//     `;
+//     const result = await pool.query(updateSQL, values);
+//     //Lian Kai update SQL command
+//     // const updateSQL = `UPDATE users
+//     //   SET username = req.body.username
+//     //   WHERE user_id = user_id`;
+//     console.log(7);
+//     console.log(result);
+//     // Execute the update
+//     // const result = await pool.query(
+//     //   "UPDATE users SET username = $1 WHERE user_id = $2",
+//     //   [req.body.username, user_id]
+//     // );
+//     // console.log(7);
+//     // console.log(result.rows);
+
+//     if (result.rows.length > 0) {
+//       res.json({
+//         status: "success",
+//         msg: "User updated successfully",
+//         updatedUser: result.rows[0],
+//       });
+//     } else {
+//       res.json({ status: "error", msg: "Update failed" });
+//     }
+//     console.log(8);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Update Error");
+//     console.log(9);
+//   }
+// };
+
 const updateUser = async (req, res) => {
   console.log(req.params.id);
+  const user_id = req.params.id;
+  const {
+    username,
+    email,
+    password,
+    full_name,
+    biography,
+    location,
+    mobile_number,
+  } = req.body;
+  console.log(1);
   try {
-    const user_id = req.params.id;
-    const { username, email, password, full_name } = req.body;
-
     // 1. Check if the user exists
     const user = await pool.query("SELECT * FROM users WHERE user_id = $1", [
       user_id,
     ]);
-    console.log(2);
     if (user.rows.length === 0) {
       return res.status(401).json("User not found");
     }
-
-    let updatedFields = [];
-    let values = [];
-    const conditions = [];
-    console.log(3);
-    if (username) {
-      updatedFields.push("username");
-      values.push(username);
-      conditions.push(`username = $${values.length}`);
-    }
-    console.log(4);
-    if (full_name) {
-      updatedFields.push("full_name");
-      values.push(full_name);
-      conditions.push(`full_name = $${values.length}`);
-    }
-    console.log(5);
+    console.log(2);
+    // 2. If password is provided, hash it
+    let bcryptPassword;
     if (password) {
-      // bcrypt the new password
       const saltRound = 5;
       const salt = await bcrypt.genSalt(saltRound);
-      const bcryptPassword = await bcrypt.hash(password, salt);
-
-      updatedFields.push("password");
-      values.push(bcryptPassword);
-      conditions.push(`password = $${values.length}`);
+      bcryptPassword = await bcrypt.hash(password, salt);
     }
-    console.log(6);
-    if (!updatedFields.length) {
-      return res.status(400).json("No fields to update");
-    }
-
-    // Add email as last value for WHERE condition
-    values.push(email);
-
-    // Create SQL UPDATE statement
-    // Vinesh update SQL command
+    console.log(3);
+    // 3. Update all fields
     const updateSQL = `
-      UPDATE users
-      SET ${conditions.join(", ")}
-      WHERE email = $${values.length}
-      RETURNING *;
-    `;
+            UPDATE users
+            SET 
+                username = $1,
+                email = $2,
+                password = $3,
+                full_name = $4,
+                biography = $5,
+                location = $6,
+                mobile_number = $7
+            WHERE user_id = $8
+            RETURNING *;
+        `;
+
+    const values = [
+      username,
+      email,
+      bcryptPassword,
+      full_name,
+      biography,
+      location,
+      mobile_number,
+      user_id,
+    ];
     const result = await pool.query(updateSQL, values);
-    //Lian Kai update SQL command
-    // const updateSQL = `UPDATE users
-    //   SET username = req.body.username
-    //   WHERE user_id = user_id`;
-    console.log(7);
     console.log(result);
-    // Execute the update
-    // const result = await pool.query(
-    //   "UPDATE users SET username = $1 WHERE user_id = $2",
-    //   [req.body.username, user_id]
-    // );
-    // console.log(7);
-    // console.log(result.rows);
-
-    // const query =
-    //   "UPDATE users SET email = $1, password = $2, username = $3, full_name = $4 WHERE user_id = $5";
-    // const values1 = [email, password, username, full_name, user_id];
-    // await pool.query(query, values1);
-
     if (result.rows.length > 0) {
       res.json({
         status: "success",
@@ -248,11 +317,9 @@ const updateUser = async (req, res) => {
     } else {
       res.json({ status: "error", msg: "Update failed" });
     }
-    console.log(8);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Update Error");
-    console.log(9);
   }
 };
 

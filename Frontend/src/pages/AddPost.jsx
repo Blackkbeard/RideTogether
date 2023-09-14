@@ -23,6 +23,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Btn from "../components/Btn";
 import dayjs from "dayjs";
 import NavBar from "../components/NavBar";
+import AppBar from "../components/AppBar";
 
 const AddPost = () => {
   const fetchData = useFetch();
@@ -75,33 +76,6 @@ const AddPost = () => {
     </React.Fragment>
   );
 
-  // endpoint to create listing
-  // const createPost = async () => {
-  //   const res = await fetchData(
-  //     "/api/listings",
-  //     "PUT",
-  //     {
-  //       title: titleRef.current.value,
-  //       description: descriptionRef.current.value,
-  //       type: typeRef.current.value === "For Loan" ? "loan" : "free",
-  //       owner_id: userCtx.userInfo._id,
-  //       date_available_from: dateFrom,
-  //       date_available_to: dateTo,
-  //       image_url: imageUrl || "/sample-image.webp",
-  //     },
-  //     userCtx.accessToken
-  //   );
-
-  //   if (res.ok) {
-  //     setOpen(true);
-  //     //to fetch all data?
-  //     setNewListingId(res.data.id);
-  //   } else {
-  //     alert(JSON.stringify(res.data));
-  //     console.log(res.data);
-  //   }
-  // };
-
   const createPost = async () => {
     try {
       const response = await fetch("http://127.0.0.1:5173/api/newPost", {
@@ -139,62 +113,10 @@ const AddPost = () => {
     console.log(userCtx.userInfo);
   };
 
-  //for image upload
-  // const submit = async (event) => {
-  //   event.preventDefault();
-  //   if (!file) {
-  //     alert("Please select an image file");
-  //     return;
-  //   }
-  //   const formData = new FormData();
-  //   formData.append("image", file);
-
-  //   // append listing_id to update existing listing
-  //   // formData.append("listing_id", userFullInfo._id);
-
-  //   const res = await fetch(
-  //     import.meta.env.VITE_SERVER + "/api/images/listings",
-  //     {
-  //       method: "POST",
-  //       headers: {},
-  //       body: formData,
-  //     }
-  //   );
-  //   const data = await res.json();
-
-  //   let returnValue = {};
-  //   if (res.ok) {
-  //     if (data.status === "error") {
-  //       returnValue = { ok: false, data: data.msg };
-  //     } else {
-  //       returnValue = { ok: true, data };
-  //       alert("Image uploaded");
-  //       setImageUrl(data.url);
-  //     }
-  //   } else {
-  //     if (data?.errors && Array.isArray(data.errors)) {
-  //       const messages = data.errors.map((item) => item.msg);
-  //       returnValue = { ok: false, data: messages };
-  //     } else if (data?.status === "error") {
-  //       returnValue = { ok: false, data: data.message || data.msg };
-  //     } else {
-  //       console.log(data);
-  //       returnValue = { ok: false, data: "An error has occurred" };
-  //     }
-  //   }
-
-  //   return returnValue;
-  // };
-
-  // const fileSelected = (event) => {
-  //   const file = event.target.files[0];
-  //   setFile(file);
-  // };
-
   return (
     <>
-      <NavBar className="w-25 p-3"></NavBar>
-
+      {/* <NavBar className="w-25 p-3"></NavBar> */}
+      <AppBar></AppBar>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Container maxWidth="lg">
           <Box>

@@ -15,7 +15,7 @@ const {
 } = require("../controller/jwtAuth");
 
 router.post("/register", validInfo, registerUser);
-router.post("/login", loginUser);
+router.post("/login", validInfo, loginUser);
 
 router.get("/getUser/:id", getUserById);
 router.patch("/update/:id", updateUser);

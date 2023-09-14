@@ -12,6 +12,7 @@ import {
   IconButton,
 } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import AppBar from "../components/AppBar";
 
 const Homepage = () => {
   const userCtx = useContext(UserContext);
@@ -79,7 +80,7 @@ const Homepage = () => {
 
   return (
     <>
-      <NavBar />
+      <AppBar> </AppBar>
       <Grid
         container
         direction="row"

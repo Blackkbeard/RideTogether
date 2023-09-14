@@ -40,7 +40,7 @@ function Login(props) {
         userCtx.setUserId(decoded.user); // Access user_id with decoded.user
         localStorage.setItem("userId", JSON.stringify(decoded.user)); // Save to localStorage
 
-        navigate(`/settings/${decoded.user_id}`);
+        navigate(`/settings`);
       } else {
         alert(JSON.stringify(data));
       }
