@@ -14,9 +14,10 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import SportsMotorsportsOutlinedIcon from "@mui/icons-material/SportsMotorsportsOutlined";
 
 const pages = ["Home Page", "My profile", "My Rides", "Registered Trips"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Account", "Logout"];
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
@@ -54,7 +55,9 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <SportsMotorsportsOutlinedIcon
+            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+          />
           <Typography
             variant="h6"
             noWrap
@@ -68,9 +71,10 @@ function ResponsiveAppBar() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              paddingRight: "220px",
             }}
           >
-            LOGO
+            RideTogether
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -126,7 +130,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            RideTogether
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page, index) => (

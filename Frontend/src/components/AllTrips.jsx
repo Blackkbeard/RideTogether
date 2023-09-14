@@ -253,7 +253,7 @@ const AllTrips = (props) => {
               alignItems="center"
               justifyContent="center"
               xs={12}
-              md={3}
+              md={4}
               key={post.post_id}
               sx={{ mt: "2rem" }}
             >

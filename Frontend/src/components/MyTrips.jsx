@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import {
   Card,
   Container,
@@ -33,6 +33,7 @@ const MyTrips = (props) => {
   const paxRef = useRef("");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const [imageUrls, setImageUrls] = useState({});
 
   const handleOpen = (post) => {
     setCurrentPost(post);
@@ -153,7 +154,13 @@ const MyTrips = (props) => {
     const random = Math.floor(Math.random() * totalImages) + 1;
     return `/bikeimages/${random}.jpeg`; // Change based on your image naming
   };
-
+  useEffect(() => {
+    const newImageUrls = {};
+    props.posts.forEach((post) => {
+      newImageUrls[post.post_id] = getRandomImage();
+    });
+    setImageUrls(newImageUrls);
+  }, [props.posts]);
   return (
     <div>
       <Grid container spacing={2}>
@@ -163,7 +170,7 @@ const MyTrips = (props) => {
           props.posts.map((post) => (
             <Grid item xs={12} md={6} key={post.post_id}>
               <Card variant="outlined" sx={{ borderRadius: "1rem" }}>
-                <img src={getRandomImage()} alt="Random" />
+                <img src={imageUrls[post.post_id]} alt="Random" />
 
                 <Typography variant="h6">{post.location}</Typography>
                 <Typography>{post.details}</Typography>
@@ -270,23 +277,7 @@ const MyTrips = (props) => {
                           }
                         />
                       </Grid>
-                      <Grid xs={7}>
-                        {/* <img
-                  alt=""
-                  src="public/sample-image.jpg"
-                  sx={{ width: 150, height: 150 }}
-                  display="flex"
-                  justifycontent="center"
-                ></img> */}
 
-                        {/* <input
-                  // onChange={fileSelected}
-                  type="file"
-                  accept="image/*"
-                ></input> */}
-
-                        {/* <Btn onClick={submit}>Upload image</Btn> */}
-                      </Grid>
                       <Grid
                         xs={12}
                         container
@@ -302,10 +293,6 @@ const MyTrips = (props) => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => fetchRegistrants(post.post_id)}>
-            Who registered
-          </Button>
-
           <Button onClick={handleSaveEdit} color="primary">
             Save
           </Button>
