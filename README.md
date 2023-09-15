@@ -82,7 +82,7 @@ user: "",
 host: "",
 database: "",
 password: "",
-port: 5432
+port: 
 
 
 #Generate your own secrets in .env
