@@ -1,6 +1,3 @@
-SELECT column_name, data_type, column_default, is_nullable
-FROM information_schema.columns
-WHERE table_name = 'posts';
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -9,41 +6,35 @@ CREATE TABLE users (
     username VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    full_name VARCHAR(255) NOT NULL,
+    full_name VARCHAR(255)  NULL,
     is_admin BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    biography TEXT
+    mobile_number VARCHAR(20),
+    pic_url VARCHAR(255)
 );
-ALTER TABLE users 
-ADD COLUMN biography TEXT;
-
-
-
---insert fake users
-INSERT INTO users (user_id, username, password, email, full_name, is_admin) VALUES('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'test','test1' ,'test1@test.com', 'test', 'false')
 
 CREATE TABLE ride_types (
     ride_type_id UUID PRIMARY KEY,
     type_name VARCHAR(255) NOT NULL
 );
 
-
-
 CREATE TABLE posts (
   post_id UUID DEFAULT uuid_generate_v4() NOT NULL,
   user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
-  ride_type_id UUID REFERENCES ride_types(ride_type_id) ON DELETE SET NULL,
+  ridetype VARCHAR (20),
   location VARCHAR(255) NOT NULL,
   duration INTEGER NOT NULL,
   max_pax INTEGER NOT NULL,
   details TEXT,
-  ride_date DATE NOT NULL,
+  todate DATE,
+  fromdate DATE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (post_id)
 );
-ALTER TABLE posts 
-ADD COLUMN username VARCHAR(255) UNIQUE NOT NULL;
+
 
 CREATE TABLE post_enquiries (
     enquiry_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -52,6 +43,7 @@ CREATE TABLE post_enquiries (
     message TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE rider_reviews (
     review_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -68,3 +60,7 @@ CREATE TABLE post_registrations (
     user_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+
+`   

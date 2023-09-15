@@ -41,7 +41,7 @@ const PostPage = (props) => {
       const data = await response.json();
 
       if (response.ok) {
-        setMyTrips(data); // <-- Use setMyTrips instead of setPosts
+        setMyTrips(data); //
       } else {
         console.log(data);
         setMyTrips([]);

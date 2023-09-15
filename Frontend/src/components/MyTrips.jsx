@@ -150,7 +150,7 @@ const MyTrips = (props) => {
   };
 
   const getRandomImage = () => {
-    const totalImages = 16; // if you have 10 images named 1.jpg, 2.jpg, ... 10.jpg
+    const totalImages = 15; // if you have 10 images named 1.jpg, 2.jpg, ... 10.jpg
     const random = Math.floor(Math.random() * totalImages) + 1;
     return `/bikeimages/${random}.jpeg`; // Change based on your image naming
   };

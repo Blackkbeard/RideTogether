@@ -197,7 +197,7 @@ const AllTrips = (props) => {
   }, [posts]);
 
   const getRandomImage = () => {
-    const totalImages = 16;
+    const totalImages = 15;
     const random = Math.floor(Math.random() * totalImages) + 1;
     return `/bikeimages/${random}.jpeg`;
   };

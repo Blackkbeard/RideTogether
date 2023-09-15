@@ -202,23 +202,7 @@ const AddPost = () => {
                   onChange={(e) => setDateTo(e.$d.toISOString().split("T")[0])}
                 />
               </Grid>
-              <Grid xs={7}>
-                {/* <img
-                  alt=""
-                  src="public/sample-image.jpg"
-                  sx={{ width: 150, height: 150 }}
-                  display="flex"
-                  justifycontent="center"
-                ></img> */}
-
-                {/* <input
-                  // onChange={fileSelected}
-                  type="file"
-                  accept="image/*"
-                ></input> */}
-
-                {/* <Btn onClick={submit}>Upload image</Btn> */}
-              </Grid>
+              <Grid xs={7}></Grid>
               <Grid
                 xs={12}
                 container
